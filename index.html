@@ -32,6 +32,9 @@
       --jp: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", var(--sans);
 
       --fontScale: 1;
+
+      /* ✅ seletor de fonte (tipografia) dos conteúdos */
+      --contentFont: var(--jp);
     }
 
     body.theme-dark{
@@ -60,7 +63,7 @@
       font-family: var(--sans);
       color: var(--text);
 
-      /* ✅ Fundo simples (sem “luzes”/radiais pesadas) */
+      /* fundo leve */
       background: linear-gradient(180deg, var(--bg0), var(--bg1));
 
       overflow:hidden;
@@ -88,18 +91,11 @@
       flex-direction:column;
       min-height: 0;
       position:relative;
-    }
-
-    /* ✅ Blur pode travar em alguns devices: reduzido + desligado no mobile */
-    .panel{
       backdrop-filter: blur(6px);
       -webkit-backdrop-filter: blur(6px);
     }
     @media (max-width: 980px){
-      .panel{
-        backdrop-filter: none;
-        -webkit-backdrop-filter: none;
-      }
+      .panel{ backdrop-filter:none; -webkit-backdrop-filter:none; }
     }
 
     .panelHeader{
@@ -140,7 +136,6 @@
       overflow:hidden;
       text-overflow:ellipsis;
     }
-    /* ✅ removido “• leve e rápido” — agora só N5/N4 */
     .brandTitle .sub{
       font-size: 12px;
       color: var(--muted);
@@ -160,15 +155,9 @@
     .row{ display:flex; gap: 10px; align-items:center; flex-wrap:wrap; }
     .col{ display:flex; flex-direction:column; gap: 10px; }
 
-    /* ✅ RESPONSIVO */
     @media (max-width: 980px){
       body{ overflow:auto; }
-      .app{
-        grid-template-columns: 1fr;
-        height:auto;
-        min-height: 100dvh;
-        overflow:visible;
-      }
+      .app{ grid-template-columns: 1fr; height:auto; min-height: 100dvh; overflow:visible; }
       .panel{ min-height: unset; }
       .content{ max-height: none; }
     }
@@ -395,20 +384,20 @@
     .lineTop{ display:flex; justify-content:space-between; align-items:flex-start; gap: 10px; }
     .lineLeft{ min-width: 0; }
 
+    /* ✅ aplica a fonte escolhida nos conteúdos */
     .jp{
-      font-family: var(--jp);
+      font-family: var(--contentFont);
       font-size: calc(17px * var(--fontScale));
       font-weight: 1000;
       line-height: 1.62;
       margin:0;
       word-break: break-word;
     }
-
     .reading{
       margin-top: 8px;
       font-size: calc(13px * var(--fontScale));
       color: var(--muted);
-      font-family: var(--jp);
+      font-family: var(--contentFont);
       line-height: 1.45;
       word-break: break-word;
     }
@@ -498,7 +487,7 @@
     body.theme-dark .vocabCard{ background: rgba(255,255,255,.04); box-shadow:none; }
 
     .vocabCard .w{
-      font-family: var(--jp);
+      font-family: var(--contentFont);
       font-size: calc(20px * var(--fontScale));
       font-weight: 1000;
       margin:0;
@@ -508,7 +497,7 @@
       margin-top: 6px;
       color: var(--muted);
       font-size: calc(14px * var(--fontScale));
-      font-family: var(--jp);
+      font-family: var(--contentFont);
       line-height: 1.35;
     }
     .vocabCard .m{
@@ -539,12 +528,12 @@
     body.theme-dark .flash{
       background: radial-gradient(120% 120% at 20% 10%, rgba(255,255,255,.08), rgba(255,255,255,.03));
     }
-    .flash .front{ font-family: var(--jp); font-size: calc(34px * var(--fontScale)); font-weight: 1000; letter-spacing:.3px; }
+    .flash .front{ font-family: var(--contentFont); font-size: calc(34px * var(--fontScale)); font-weight: 1000; letter-spacing:.3px; }
     .flash .back{ display:none; width: 100%; max-width: 560px; }
     .flash.revealed .back{ display:block; }
     .flash.revealed .hint{ display:none; }
     .flash .hint{ color: var(--muted); font-size: 12px; margin-top: 6px; }
-    .flash .subline{ margin-top: 6px; color: var(--muted); font-size: calc(14px * var(--fontScale)); font-family: var(--jp); }
+    .flash .subline{ margin-top: 6px; color: var(--muted); font-size: calc(14px * var(--fontScale)); font-family: var(--contentFont); }
     .flash .meaning{ margin-top: 10px; color: var(--text); font-size: calc(15px * var(--fontScale)); line-height: 1.5; }
 
     .quizQ{ margin-top: 12px; border: 1px solid var(--stroke); background: rgba(255,255,255,.74); border-radius: 20px; padding: 14px; box-shadow: var(--shadow2); }
@@ -572,7 +561,6 @@
 
     .focus{
       position:fixed; inset:0;
-      /* ✅ foco também com fundo simples */
       background: linear-gradient(180deg, var(--bg0), var(--bg1));
       z-index: 60;
       display:none;
@@ -617,44 +605,20 @@
 
           <input class="input" id="searchInput" placeholder="Buscar título / JP / palavra-chave..." />
 
-          <!-- ✅ Fonte de conteúdo -->
+          <!-- ✅ (mantém o que você pediu) opção de escolher a FONTE (tipografia) dos conteúdos -->
           <div class="box" style="margin-top:2px">
             <div class="boxTitle">
-              <b>Fonte de conteúdo</b>
-              <span class="tag">biblioteca</span>
+              <b>Fonte dos conteúdos</b>
+              <span class="tag">tipografia</span>
             </div>
-
-            <select class="select" id="contentSource">
-              <option value="BUILTIN">Somente padrão (incluído)</option>
-              <option value="IMPORTED">Somente importados (meus)</option>
-              <option value="BOTH" selected>Padrão + importados</option>
+            <select class="select" id="fontPicker">
+              <option value="JP" selected>Japonesa (padrão)</option>
+              <option value="SANS">Sans (sistema)</option>
+              <option value="MONO">Mono (código)</option>
             </select>
-
-            <div class="row" style="margin-top:10px;justify-content:space-between">
-              <button class="btn btnPrimary" id="btnToggleImport">Importar JSON</button>
-              <button class="btn" id="btnClearImported">Limpar importados</button>
-            </div>
-
-            <div id="importArea" style="display:none;margin-top:10px">
-              <textarea class="textarea" id="importTextarea" placeholder='Cole um JSON de textos aqui. Exemplo:
-[
-  {
-    "id":"meu_texto_1",
-    "level":"N5",
-    "title":"タイトル",
-    "desc":"descrição",
-    "tags":["tag1","tag2"],
-    "lines":[
-      {"jp":"...", "reading":"...", "pt":"...", "vocab":[{"w":"...", "r":"...", "m":"..."}]}
-    ]
-  }
-]'></textarea>
-
-              <div class="row" style="justify-content:space-between">
-                <button class="btn btnPrimary" id="btnImportNow">Importar</button>
-                <span class="muted" style="font-size:12px">Sem exportar — só importação</span>
-              </div>
-            </div>
+            <p class="muted" style="font-size:12px;margin-top:10px">
+              Afeta: texto JP, leitura e cards de vocabulário/deck.
+            </p>
           </div>
 
           <div class="kpi" aria-label="Resumo">
@@ -880,7 +844,6 @@
   <script>
     /***********************
      * TEXTOS (N5/N4)
-     * (mantive o mesmo conteúdo que você já tinha nesta versão)
      ***********************/
     const builtInTexts = [
       {
@@ -1151,9 +1114,8 @@
     /***********************
      * STATE + STORAGE
      ***********************/
-    const LS_KEY = "nihongo_textlab_v7_sources";
+    const LS_KEY = "nihongo_textlab_v8_clean";
     const defaultState = {
-      texts: [],
       activeTextId: null,
       ui: {
         tab: "TAB_TEXT",
@@ -1164,8 +1126,7 @@
         hue: 210,
         levelView: "N5",
         appearance: "light",
-        contentSource: "BOTH",
-        importOpen: false
+        contentFont: "JP" // JP | SANS | MONO
       },
       progress: {},
       deck: {}
@@ -1237,39 +1198,8 @@
       return "";
     }
 
-    /***********************
-     * FONTES DE CONTEÚDO (novo)
-     ***********************/
-    function getContentSource(){
-      return state.ui.contentSource || "BOTH";
-    }
-
-    function setContentSource(v){
-      state.ui.contentSource = v;
-      saveStateDebounced();
-      renderLibrary();
-
-      // se o texto ativo sumiu (ex.: só importados), tenta escolher outro
-      const active = getTextById(state.activeTextId);
-      if(!active){
-        const level = state.ui.levelView || "N5";
-        const first = filteredTexts().find(t => t.level === level) || filteredTexts()[0] || null;
-        state.activeTextId = first ? first.id : null;
-        saveStateDebounced(0);
-      }
-      renderMain();
-    }
-
-    function filteredTexts(){
-      const src = getContentSource();
-      const imported = (state.texts || []);
-      if(src === "BUILTIN") return [...builtInTexts];
-      if(src === "IMPORTED") return [...imported];
-      return [...builtInTexts, ...imported];
-    }
-
     function getTextById(id){
-      return filteredTexts().find(t => t.id === id) || null;
+      return builtInTexts.find(t => t.id === id) || null;
     }
 
     function ensureProgress(textId){
@@ -1277,6 +1207,25 @@
         state.progress[textId] = { doneLines:{}, bookmarked:false, notes:"" };
       }
       return state.progress[textId];
+    }
+
+    /***********************
+     * Font Picker (tipografia)
+     ***********************/
+    function applyContentFont(){
+      const v = state.ui.contentFont || "JP";
+      let family = "var(--jp)";
+      if(v === "SANS") family = "var(--sans)";
+      if(v === "MONO") family = "var(--mono)";
+      document.documentElement.style.setProperty("--contentFont", family);
+      $("#fontPicker").value = v;
+    }
+
+    function setContentFont(v){
+      state.ui.contentFont = v;
+      saveStateDebounced();
+      applyContentFont();
+      renderMain();
     }
 
     /***********************
@@ -1294,7 +1243,6 @@
       toast(state.ui.appearance === "dark" ? "Escuro" : "Claro");
     }
 
-    /* ✅ hue update mais lento (menos CPU) */
     function startTheme(){
       let hue = state.ui?.hue ?? 210;
       document.documentElement.style.setProperty("--hue", hue);
@@ -1302,7 +1250,6 @@
         hue = (hue + 6) % 360;
         document.documentElement.style.setProperty("--hue", hue);
         state.ui.hue = hue;
-        // não precisa salvar sempre; salva no próximo evento do usuário
       }, 10000);
     }
 
@@ -1318,7 +1265,7 @@
 
       const active = getTextById(state.activeTextId);
       if(!active || active.level !== level){
-        const first = filteredTexts().find(t=>t.level===level);
+        const first = builtInTexts.find(t=>t.level===level);
         state.activeTextId = first ? first.id : null;
         saveStateDebounced();
       }
@@ -1333,7 +1280,7 @@
       const q = $("#searchInput").value.trim().toLowerCase();
       const level = state.ui.levelView || "N5";
 
-      const texts = filteredTexts()
+      const texts = builtInTexts
         .filter(t => t.level === level)
         .filter(t => {
           if(!q) return true;
@@ -1423,9 +1370,7 @@
     function fontPlus(){ applyFontScale((state.ui.fontScale||1) + 0.05); renderMain(); }
     function fontMinus(){ applyFontScale((state.ui.fontScale||1) - 0.05); renderMain(); }
 
-    function isFocusOpen(){
-      return $("#focusOverlay").classList.contains("open");
-    }
+    function isFocusOpen(){ return $("#focusOverlay").classList.contains("open"); }
 
     function renderMain(){
       const text = getTextById(state.activeTextId);
@@ -1467,14 +1412,10 @@
       for(const k of Object.keys(map)){
         $(map[k]).style.display = (k === tab) ? "block" : "none";
       }
-      $$(".tab").forEach(t=>{
-        t.classList.toggle("active", t.dataset.tab === tab);
-      });
+      $$(".tab").forEach(t=> t.classList.toggle("active", t.dataset.tab === tab));
 
-      // ✅ renderiza a lista principal sempre
       renderLines(text, $("#lineList"));
 
-      // ✅ foco: só renderiza se o overlay estiver aberto (reduz travadas)
       if(isFocusOpen()){
         renderLines(text, $("#focusLineList"));
       }
@@ -1607,7 +1548,6 @@
           else delete pr2.doneLines[idx];
           saveStateDebounced(0);
           renderLibrary();
-          // ✅ evita renderMain inteiro só por checkbox quando o foco está fechado
           renderMain();
         });
 
@@ -1820,9 +1760,7 @@
         pool = Object.values(state.deck).map(x=>({ w:x.w, r:x.r, m:x.m, vt:x.vt||"" }));
       }else{
         const text = getTextById(state.activeTextId);
-        if(text){
-          pool = aggregateVocab(text).map(x=>({ w:x.w, r:x.r, m:x.m, vt:x.vt||"" }));
-        }
+        if(text) pool = aggregateVocab(text).map(x=>({ w:x.w, r:x.r, m:x.m, vt:x.vt||"" }));
       }
       pool = pool.filter(x=>x.w && x.m);
 
@@ -1857,7 +1795,7 @@
         const el = document.createElement("div");
         el.className = "quizQ";
         el.innerHTML = `
-          <h3>Q${idx+1}. O que significa <span style="font-family:var(--jp);font-weight:1000">${escapeHTML(it.w)}</span> (${escapeHTML(it.r||"")})? ${vt}</h3>
+          <h3>Q${idx+1}. O que significa <span style="font-family:var(--contentFont);font-weight:1000">${escapeHTML(it.w)}</span> (${escapeHTML(it.r||"")})? ${vt}</h3>
           <div class="choices">
             ${choices.map(c=>`
               <div class="choice" data-c="${escapeHTML(c)}" data-correct="${escapeHTML(correct)}">
@@ -1908,113 +1846,12 @@
     }
 
     function resetProgress(){
-      if(!confirm("Resetar progresso (revisadas, favoritos e notas)? Deck e textos ficam.")) return;
+      if(!confirm("Resetar progresso (revisadas, favoritos e notas)? Deck fica.")) return;
       state.progress = {};
       saveStateNow();
       renderLibrary();
       renderMain();
       toast("Progresso resetado.");
-    }
-
-    /***********************
-     * IMPORTADOR (novo)
-     ***********************/
-    function toggleImportArea(force){
-      const open = (typeof force === "boolean") ? force : !state.ui.importOpen;
-      state.ui.importOpen = open;
-      $("#importArea").style.display = open ? "block" : "none";
-      $("#btnToggleImport").textContent = open ? "Fechar importador" : "Importar JSON";
-      saveStateDebounced(0);
-    }
-
-    function normalizeImportedText(t){
-      // aceita o mínimo: id, level, title, lines[{jp,reading,pt,vocab[]}]
-      if(!t || typeof t !== "object") return null;
-      const id = String(t.id || "").trim();
-      const level = (String(t.level || "").trim().toUpperCase() === "N4") ? "N4" : "N5";
-      const title = String(t.title || "").trim();
-      const desc = String(t.desc || "").trim();
-      const tags = Array.isArray(t.tags) ? t.tags.map(x=>String(x)) : [];
-      const lines = Array.isArray(t.lines) ? t.lines : [];
-      if(!id || !title || !lines.length) return null;
-
-      const cleanLines = lines.map(ln=>{
-        const jp = String(ln.jp || "").trim();
-        if(!jp) return null;
-        const reading = String(ln.reading || "").trim();
-        const pt = String(ln.pt || "").trim();
-        const vocab = Array.isArray(ln.vocab) ? ln.vocab.map(v=>({
-          w: String(v.w||"").trim(),
-          r: String(v.r||"").trim(),
-          m: String(v.m||"").trim(),
-          vt: String(v.vt||"").trim()
-        })).filter(v=>v.w && v.m) : [];
-        return {
-          jp,
-          // jpRuby opcional (pode vir vazio)
-          jpRuby: (typeof ln.jpRuby === "string" ? ln.jpRuby : null),
-          reading,
-          pt,
-          structure: ln.structure || "",
-          literal: ln.literal || "",
-          points: Array.isArray(ln.points) ? ln.points.map(x=>String(x)) : [],
-          grammar: ln.grammar || "",
-          breakdown: Array.isArray(ln.breakdown) ? ln.breakdown : [],
-          vocab
-        };
-      }).filter(Boolean);
-
-      if(!cleanLines.length) return null;
-
-      return { id, level, title, desc, tags, lines: cleanLines };
-    }
-
-    function importJSON(){
-      const raw = $("#importTextarea").value.trim();
-      if(!raw){
-        toast("Cole um JSON primeiro.");
-        return;
-      }
-      let parsed;
-      try{
-        parsed = JSON.parse(raw);
-      }catch(e){
-        toast("JSON inválido.");
-        return;
-      }
-      if(!Array.isArray(parsed)){
-        toast("O JSON deve ser uma lista: [ {...}, {...} ]");
-        return;
-      }
-
-      const normalized = parsed.map(normalizeImportedText).filter(Boolean);
-      if(!normalized.length){
-        toast("Nada válido para importar.");
-        return;
-      }
-
-      // evita id duplicado: substitui se existir
-      const map = new Map((state.texts||[]).map(t=>[t.id, t]));
-      for(const t of normalized) map.set(t.id, t);
-      state.texts = Array.from(map.values());
-
-      saveStateNow();
-      renderLibrary();
-      renderMain();
-      toast(`Importado: ${normalized.length}`);
-    }
-
-    function clearImported(){
-      if(!(state.texts||[]).length){
-        toast("Não há importados.");
-        return;
-      }
-      if(!confirm("Apagar TODOS os textos importados?")) return;
-      state.texts = [];
-      saveStateNow();
-      renderLibrary();
-      renderMain();
-      toast("Importados limpos.");
     }
 
     /***********************
@@ -2106,7 +1943,6 @@
       $("#btnExpandAll").addEventListener("click", expandAll);
       $("#btnCollapseAll").addEventListener("click", collapseAll);
 
-      // ✅ foco: só renderiza a lista do foco ao abrir
       $("#btnFocus").addEventListener("click", ()=>{
         $("#focusOverlay").classList.add("open");
         const text = getTextById(state.activeTextId);
@@ -2143,13 +1979,8 @@
 
       $("#btnReset").addEventListener("click", resetProgress);
 
-      // ✅ fonte de conteúdo
-      $("#contentSource").addEventListener("change", (e)=> setContentSource(e.target.value));
-
-      // ✅ importador
-      $("#btnToggleImport").addEventListener("click", ()=> toggleImportArea());
-      $("#btnImportNow").addEventListener("click", importJSON);
-      $("#btnClearImported").addEventListener("click", clearImported);
+      // ✅ seletor de fonte (tipografia)
+      $("#fontPicker").addEventListener("change", (e)=> setContentFont(e.target.value));
 
       window.addEventListener("keydown", (e)=>{
         if(e.key === "Escape"){
@@ -2161,7 +1992,6 @@
     }
 
     function init(){
-      state.texts = state.texts || [];
       state.progress = state.progress || {};
       state.deck = state.deck || {};
       state.ui = mergeDeep({
@@ -2173,24 +2003,20 @@
         hue:210,
         levelView:"N5",
         appearance:"light",
-        contentSource:"BOTH",
-        importOpen:false
+        contentFont:"JP"
       }, state.ui || {});
 
       applyAppearance();
       applyFontScale(state.ui.fontScale || 1);
+      applyContentFont();
 
       startTheme();
       bindEvents();
 
-      // set UI
-      $("#contentSource").value = state.ui.contentSource || "BOTH";
-      toggleImportArea(!!state.ui.importOpen);
-
       setLevelView(state.ui.levelView || "N5");
 
       if(!state.activeTextId){
-        const first = filteredTexts().find(t=>t.level === (state.ui.levelView||"N5"));
+        const first = builtInTexts.find(t=>t.level === (state.ui.levelView||"N5"));
         state.activeTextId = first ? first.id : null;
         saveStateDebounced();
       }
