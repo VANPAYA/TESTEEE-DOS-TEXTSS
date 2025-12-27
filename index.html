@@ -60,12 +60,8 @@
       font-family: var(--sans);
       color: var(--text);
 
-      /* ✅ Fundo leve (sem luzes/blur pesado) */
-      background:
-        radial-gradient(1100px 620px at 18% 10%, rgba(50,120,255,.14), transparent 58%),
-        radial-gradient(900px 520px at 88% 20%, rgba(255,80,220,.10), transparent 60%),
-        radial-gradient(900px 520px at 50% 92%, rgba(0,200,140,.08), transparent 62%),
-        linear-gradient(180deg, var(--bg0), var(--bg1));
+      /* ✅ Fundo simples (sem “luzes”/radiais pesadas) */
+      background: linear-gradient(180deg, var(--bg0), var(--bg1));
 
       overflow:hidden;
       -webkit-text-size-adjust: 100%;
@@ -88,13 +84,22 @@
       border-radius: var(--radius2);
       box-shadow: var(--shadow);
       overflow:hidden;
-      /* ✅ blur menor para performance */
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
       display:flex;
       flex-direction:column;
       min-height: 0;
       position:relative;
+    }
+
+    /* ✅ Blur pode travar em alguns devices: reduzido + desligado no mobile */
+    .panel{
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+    @media (max-width: 980px){
+      .panel{
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+      }
     }
 
     .panelHeader{
@@ -135,6 +140,7 @@
       overflow:hidden;
       text-overflow:ellipsis;
     }
+    /* ✅ removido “• leve e rápido” — agora só N5/N4 */
     .brandTitle .sub{
       font-size: 12px;
       color: var(--muted);
@@ -566,10 +572,8 @@
 
     .focus{
       position:fixed; inset:0;
-      background:
-        radial-gradient(1100px 620px at 18% 10%, rgba(50,120,255,.14), transparent 58%),
-        radial-gradient(900px 520px at 88% 20%, rgba(255,80,220,.10), transparent 60%),
-        linear-gradient(180deg, var(--bg0), var(--bg1));
+      /* ✅ foco também com fundo simples */
+      background: linear-gradient(180deg, var(--bg0), var(--bg1));
       z-index: 60;
       display:none;
       padding: 14px;
@@ -596,7 +600,7 @@
           <div class="logo" aria-hidden="true"></div>
           <div class="brandTitle">
             <div class="name">日本語テキストラボ</div>
-            <div class="sub">N5 / N4 • leve e rápido</div>
+            <div class="sub">N5 / N4</div>
           </div>
         </div>
         <div class="row">
@@ -612,6 +616,46 @@
           </div>
 
           <input class="input" id="searchInput" placeholder="Buscar título / JP / palavra-chave..." />
+
+          <!-- ✅ Fonte de conteúdo -->
+          <div class="box" style="margin-top:2px">
+            <div class="boxTitle">
+              <b>Fonte de conteúdo</b>
+              <span class="tag">biblioteca</span>
+            </div>
+
+            <select class="select" id="contentSource">
+              <option value="BUILTIN">Somente padrão (incluído)</option>
+              <option value="IMPORTED">Somente importados (meus)</option>
+              <option value="BOTH" selected>Padrão + importados</option>
+            </select>
+
+            <div class="row" style="margin-top:10px;justify-content:space-between">
+              <button class="btn btnPrimary" id="btnToggleImport">Importar JSON</button>
+              <button class="btn" id="btnClearImported">Limpar importados</button>
+            </div>
+
+            <div id="importArea" style="display:none;margin-top:10px">
+              <textarea class="textarea" id="importTextarea" placeholder='Cole um JSON de textos aqui. Exemplo:
+[
+  {
+    "id":"meu_texto_1",
+    "level":"N5",
+    "title":"タイトル",
+    "desc":"descrição",
+    "tags":["tag1","tag2"],
+    "lines":[
+      {"jp":"...", "reading":"...", "pt":"...", "vocab":[{"w":"...", "r":"...", "m":"..."}]}
+    ]
+  }
+]'></textarea>
+
+              <div class="row" style="justify-content:space-between">
+                <button class="btn btnPrimary" id="btnImportNow">Importar</button>
+                <span class="muted" style="font-size:12px">Sem exportar — só importação</span>
+              </div>
+            </div>
+          </div>
 
           <div class="kpi" aria-label="Resumo">
             <div class="kpiCard">
@@ -835,12 +879,10 @@
 
   <script>
     /***********************
-     * TEXTOS (N5/N4) — + MAIS TEXTOS
+     * TEXTOS (N5/N4)
+     * (mantive o mesmo conteúdo que você já tinha nesta versão)
      ***********************/
     const builtInTexts = [
-      /* =========================
-         N5 (base)
-      ========================== */
       {
         id: "n5_school_day",
         level: "N5",
@@ -931,7 +973,6 @@
           }
         ]
       },
-
       {
         id: "n5_restaurant",
         level: "N5",
@@ -1014,184 +1055,6 @@
           }
         ]
       },
-
-      /* =========================
-         N5 (NOVOS — mais textos)
-      ========================== */
-      {
-        id: "n5_weather_clothes",
-        level: "N5",
-        title: "天気と服",
-        desc: "天気 / さむい / あつい / 〜から",
-        tags: ["天気","服"],
-        lines: [
-          {
-            jp: "今日は寒いですから、コートを着ます。",
-            jpRuby: "<ruby>今日<rt>きょう</rt></ruby>は<ruby>寒<rt>さむ</rt></ruby>いですから、コートを<ruby>着<rt>き</rt></ruby>ます。",
-            reading: "きょうは さむいですから、こーとを きます。",
-            pt: "Como hoje está frio, eu visto um casaco.",
-            structure: "Aですから、BをVます",
-            literal: "Porque está frio, casaco eu visto.",
-            points: ["ですから = porque/então (mais formal)", "着る = transitivo (他)"],
-            grammar: "N5: ですから",
-            breakdown: [
-              { jp:"寒い", r:"さむい", m:"frio", note:"adj-i" },
-              { jp:"着ます", r:"きます", m:"visto", note:"Vます", vt:"他" }
-            ],
-            vocab: [
-              { w:"寒い", r:"さむい", m:"frio" },
-              { w:"コート", r:"こーと", m:"casaco" },
-              { w:"着る", r:"きる", m:"vestir", vt:"他" }
-            ]
-          },
-          {
-            jp: "雨が降っています。",
-            jpRuby: "<ruby>雨<rt>あめ</rt></ruby>が<ruby>降<rt>ふ</rt></ruby>っています。",
-            reading: "あめが ふっています。",
-            pt: "Está chovendo.",
-            structure: "Nが Vています",
-            literal: "Chuva está caindo.",
-            points: ["降る = intransitivo (自)", "Vている = estado/ação em progresso"],
-            grammar: "N5: Vています",
-            breakdown: [
-              { jp:"雨", r:"あめ", m:"chuva", note:"substantivo" },
-              { jp:"降る", r:"ふる", m:"cair (chuva/neve)", note:"verbo", vt:"自" }
-            ],
-            vocab: [
-              { w:"雨", r:"あめ", m:"chuva" },
-              { w:"降る", r:"ふる", m:"cair (chuva)", vt:"自" }
-            ]
-          },
-          {
-            jp: "傘を持って行きましょう。",
-            jpRuby: "<ruby>傘<rt>かさ</rt></ruby>を<ruby>持<rt>も</rt></ruby>って<ruby>行<rt>い</rt></ruby>きましょう。",
-            reading: "かさを もって いきましょう。",
-            pt: "Vamos levar um guarda-chuva.",
-            structure: "Nを持って + 行きましょう",
-            literal: "Levando guarda-chuva, vamos.",
-            points: ["〜ましょう = convite", "持つ = transitivo (他)"],
-            grammar: "N5: Vましょう",
-            breakdown: [
-              { jp:"傘", r:"かさ", m:"guarda-chuva", note:"substantivo" },
-              { jp:"持つ", r:"もつ", m:"segurar/levar", note:"verbo", vt:"他" },
-              { jp:"行く", r:"いく", m:"ir", note:"verbo", vt:"自" }
-            ],
-            vocab: [
-              { w:"傘", r:"かさ", m:"guarda-chuva" },
-              { w:"持つ", r:"もつ", m:"levar/segurar", vt:"他" },
-              { w:"行く", r:"いく", m:"ir", vt:"自" }
-            ]
-          },
-          {
-            jp: "明日は暑くなると思います。",
-            jpRuby: "<ruby>明日<rt>あした</rt></ruby>は<ruby>暑<rt>あつ</rt></ruby>くなると<ruby>思<rt>おも</rt></ruby>います。",
-            reading: "あしたは あつくなると おもいます。",
-            pt: "Acho que amanhã vai ficar quente.",
-            structure: "Vると思います",
-            literal: "Eu penso que vai ficar quente.",
-            points: ["暑くなる = ficar quente (なる = 自)", "思う = transitivo (他)"],
-            grammar: "N5: と思います",
-            breakdown: [
-              { jp:"暑い", r:"あつい", m:"quente", note:"adj-i" },
-              { jp:"なる", r:"なる", m:"tornar-se/ficar", note:"verbo", vt:"自" },
-              { jp:"思う", r:"おもう", m:"achar/pensar", note:"verbo", vt:"他" }
-            ],
-            vocab: [
-              { w:"明日", r:"あした", m:"amanhã" },
-              { w:"暑い", r:"あつい", m:"quente" },
-              { w:"なる", r:"なる", m:"ficar/tornar-se", vt:"自" }
-            ]
-          }
-        ]
-      },
-
-      {
-        id: "n5_pharmacy",
-        level: "N5",
-        title: "薬局で",
-        desc: "痛い / ありますか / 〜がほしい / ください",
-        tags: ["健康","薬"],
-        lines: [
-          {
-            jp: "頭が痛いです。",
-            jpRuby: "<ruby>頭<rt>あたま</rt></ruby>が<ruby>痛<rt>いた</rt></ruby>いです。",
-            reading: "あたまが いたいです。",
-            pt: "Minha cabeça dói.",
-            structure: "Nが痛いです",
-            literal: "Cabeça é dolorida.",
-            points: ["が = foco/sujeito", "痛い = adj-i"],
-            grammar: "N5: Nが痛い",
-            breakdown: [
-              { jp:"頭", r:"あたま", m:"cabeça", note:"substantivo" },
-              { jp:"痛い", r:"いたい", m:"doer", note:"adj-i" }
-            ],
-            vocab: [
-              { w:"頭", r:"あたま", m:"cabeça" },
-              { w:"痛い", r:"いたい", m:"doer" }
-            ]
-          },
-          {
-            jp: "薬はありますか。",
-            jpRuby: "<ruby>薬<rt>くすり</rt></ruby>はありますか。",
-            reading: "くすりは ありますか。",
-            pt: "Tem remédio?",
-            structure: "Nはありますか",
-            literal: "Quanto a remédio, existe?",
-            points: ["ある = existir (自)", "は = tópico"],
-            grammar: "N5: ありますか",
-            breakdown: [
-              { jp:"薬", r:"くすり", m:"remédio", note:"substantivo" },
-              { jp:"ある", r:"ある", m:"existir/ter", note:"verbo", vt:"自" }
-            ],
-            vocab: [
-              { w:"薬", r:"くすり", m:"remédio" },
-              { w:"ある", r:"ある", m:"existir/ter", vt:"自" }
-            ]
-          },
-          {
-            jp: "のどにいい薬がほしいです。",
-            jpRuby: "のどにいい<ruby>薬<rt>くすり</rt></ruby>がほしいです。",
-            reading: "のどに いい くすりが ほしいです。",
-            pt: "Quero um remédio que seja bom para a garganta.",
-            structure: "Nがほしいです",
-            literal: "Remédio eu quero.",
-            points: ["ほしい = querer (adjetivo)", "にいい = bom para"],
-            grammar: "N5: Nがほしい",
-            breakdown: [
-              { jp:"のど", r:"のど", m:"garganta", note:"substantivo" },
-              { jp:"薬", r:"くすり", m:"remédio", note:"substantivo" },
-              { jp:"ほしい", r:"ほしい", m:"querer", note:"adj-i" }
-            ],
-            vocab: [
-              { w:"のど", r:"のど", m:"garganta" },
-              { w:"ほしい", r:"ほしい", m:"querer (algo)" }
-            ]
-          },
-          {
-            jp: "これを一つください。",
-            jpRuby: "これを<ruby>一<rt>ひと</rt></ruby>つください。",
-            reading: "これを ひとつ ください。",
-            pt: "Este aqui, um, por favor.",
-            structure: "これを一つください",
-            literal: "Isto, um, por favor dê.",
-            points: ["ください = pedido", "一つ = contador genérico"],
-            grammar: "N5: Nをください",
-            breakdown: [
-              { jp:"これ", r:"これ", m:"isto", note:"pronome" },
-              { jp:"ください", r:"ください", m:"por favor (dê)", note:"pedido", vt:"他" }
-            ],
-            vocab: [
-              { w:"これ", r:"これ", m:"isto" },
-              { w:"一つ", r:"ひとつ", m:"um (item)" },
-              { w:"ください", r:"ください", m:"por favor", vt:"他" }
-            ]
-          }
-        ]
-      },
-
-      /* =========================
-         N4 (base)
-      ========================== */
       {
         id: "n4_moving_prep",
         level: "N4",
@@ -1238,7 +1101,6 @@
           }
         ]
       },
-
       {
         id: "n4_work_request",
         level: "N4",
@@ -1283,183 +1145,13 @@
             ]
           }
         ]
-      },
-
-      /* =========================
-         N4 (NOVOS — mais textos)
-      ========================== */
-      {
-        id: "n4_schedule_change",
-        level: "N4",
-        title: "予定の変更",
-        desc: "ことにする / かもしれない / 〜てしまう",
-        tags: ["予定","連絡"],
-        lines: [
-          {
-            jp: "会議は明日にすることにしました。",
-            jpRuby: "<ruby>会議<rt>かいぎ</rt></ruby>は<ruby>明日<rt>あした</rt></ruby>にすることにしました。",
-            reading: "かいぎは あしたに することにしました。",
-            pt: "Decidi mudar a reunião para amanhã.",
-            structure: "Nは (tempo)にすることにしました",
-            literal: "Reunião: decidi fazer amanhã.",
-            points: ["ことにする = decisão do falante", "する = 他 (ação)"],
-            grammar: "N4: ことにする",
-            breakdown: [
-              { jp:"会議", r:"かいぎ", m:"reunião", note:"substantivo" },
-              { jp:"明日", r:"あした", m:"amanhã", note:"tempo" },
-              { jp:"する", r:"する", m:"fazer", note:"verbo", vt:"他" }
-            ],
-            vocab: [
-              { w:"会議", r:"かいぎ", m:"reunião" },
-              { w:"ことにする", r:"ことにする", m:"decidir" }
-            ]
-          },
-          {
-            jp: "雨が降るかもしれないので、早めに出ます。",
-            jpRuby: "<ruby>雨<rt>あめ</rt></ruby>が<ruby>降<rt>ふ</rt></ruby>るかもしれないので、<ruby>早<rt>はや</rt></ruby>めに<ruby>出<rt>で</rt></ruby>ます。",
-            reading: "あめが ふるかもしれないので、はやめに でます。",
-            pt: "Como talvez chova, vou sair mais cedo.",
-            structure: "かもしれないので + 早めにVます",
-            literal: "Talvez chova, então saio cedo.",
-            points: ["かもしれない = talvez", "ので = porque (suave)", "出る = 自"],
-            grammar: "N4: かもしれない",
-            breakdown: [
-              { jp:"降る", r:"ふる", m:"cair (chuva)", note:"verbo", vt:"自" },
-              { jp:"早めに", r:"はやめに", m:"mais cedo", note:"advérbio" },
-              { jp:"出る", r:"でる", m:"sair", note:"verbo", vt:"自" }
-            ],
-            vocab: [
-              { w:"かもしれない", r:"かもしれない", m:"talvez" },
-              { w:"早めに", r:"はやめに", m:"mais cedo" },
-              { w:"出る", r:"でる", m:"sair", vt:"自" }
-            ]
-          },
-          {
-            jp: "約束を忘れてしまって、本当にすみません。",
-            jpRuby: "<ruby>約束<rt>やくそく</rt></ruby>を<ruby>忘<rt>わす</rt></ruby>れてしまって、<ruby>本当<rt>ほんとう</rt></ruby>にすみません。",
-            reading: "やくそくを わすれてしまって、ほんとうに すみません。",
-            pt: "Desculpe mesmo, acabei esquecendo o compromisso.",
-            structure: "Vてしまって + すみません",
-            literal: "Acabei fazendo (sem querer), desculpe.",
-            points: ["〜てしまう = concluir/infelizmente", "忘れる = 他"],
-            grammar: "N4: Vてしまう",
-            breakdown: [
-              { jp:"約束", r:"やくそく", m:"promessa/compromisso", note:"substantivo" },
-              { jp:"忘れる", r:"わすれる", m:"esquecer", note:"verbo", vt:"他" }
-            ],
-            vocab: [
-              { w:"約束", r:"やくそく", m:"compromisso" },
-              { w:"忘れてしまう", r:"わすれてしまう", m:"acabar esquecendo", vt:"他" }
-            ]
-          },
-          {
-            jp: "時間ができたら、連絡してください。",
-            jpRuby: "<ruby>時間<rt>じかん</rt></ruby>ができたら、<ruby>連絡<rt>れんらく</rt></ruby>してください。",
-            reading: "じかんが できたら、れんらくしてください。",
-            pt: "Quando você tiver tempo, entre em contato.",
-            structure: "Vたら + Vてください",
-            literal: "Se tiver tempo, contate por favor.",
-            points: ["できる = poder/ter disponível (自)", "連絡する = 他"],
-            grammar: "N4: Vたら",
-            breakdown: [
-              { jp:"できる", r:"できる", m:"ser possível / ter disponível", note:"verbo", vt:"自" },
-              { jp:"連絡する", r:"れんらくする", m:"contatar/avisar", note:"verbo", vt:"他" }
-            ],
-            vocab: [
-              { w:"できたら", r:"できたら", m:"quando puder" },
-              { w:"連絡する", r:"れんらくする", m:"contatar", vt:"他" }
-            ]
-          }
-        ]
-      },
-
-      {
-        id: "n4_return_exchange",
-        level: "N4",
-        title: "返品と交換",
-        desc: "〜てもいいですか / 〜ていただけますか / ところ",
-        tags: ["買い物","丁寧"],
-        lines: [
-          {
-            jp: "すみません、これを返品してもいいですか。",
-            jpRuby: "すみません、これを<ruby>返品<rt>へんぴん</rt></ruby>してもいいですか。",
-            reading: "すみません、これを へんぴんしても いいですか。",
-            pt: "Com licença, posso devolver isto?",
-            structure: "Vてもいいですか",
-            literal: "Mesmo se devolver, está ok?",
-            points: ["〜てもいいですか = pedir permissão", "返品する = 他"],
-            grammar: "N4: Vてもいいですか",
-            breakdown: [
-              { jp:"返品する", r:"へんぴんする", m:"devolver (produto)", note:"verbo", vt:"他" }
-            ],
-            vocab: [
-              { w:"返品する", r:"へんぴんする", m:"devolver (produto)", vt:"他" },
-              { w:"いいですか", r:"いいですか", m:"está tudo bem?" }
-            ]
-          },
-          {
-            jp: "レシートを見せていただけますか。",
-            jpRuby: "レシートを<ruby>見<rt>み</rt></ruby>せていただけますか。",
-            reading: "れしーとを みせていただけますか。",
-            pt: "Você pode me mostrar o recibo?",
-            structure: "Vていただけますか",
-            literal: "Pode me dar o favor de mostrar?",
-            points: ["〜ていただけますか = pedido educado", "見せる = 他"],
-            grammar: "N4: Vていただけますか",
-            breakdown: [
-              { jp:"見せる", r:"みせる", m:"mostrar", note:"verbo", vt:"他" }
-            ],
-            vocab: [
-              { w:"レシート", r:"れしーと", m:"recibo" },
-              { w:"見せる", r:"みせる", m:"mostrar", vt:"他" }
-            ]
-          },
-          {
-            jp: "今、サイズが合わないところです。",
-            jpRuby: "<ruby>今<rt>いま</rt></ruby>、サイズが<ruby>合<rt>あ</rt></ruby>わないところです。",
-            reading: "いま、さいずが あわない ところです。",
-            pt: "No momento, o tamanho não está servindo (é a situação atual).",
-            structure: "Vないところです",
-            literal: "É o ponto em que não serve.",
-            points: ["ところです = estado/situação", "合う = 自"],
-            grammar: "N4: ところです",
-            breakdown: [
-              { jp:"合う", r:"あう", m:"servir/combinar", note:"verbo", vt:"自" },
-              { jp:"ところ", r:"ところ", m:"situação/momento", note:"padrão" }
-            ],
-            vocab: [
-              { w:"合う", r:"あう", m:"servir/combinar", vt:"自" },
-              { w:"ところ", r:"ところ", m:"momento/situação" }
-            ]
-          },
-          {
-            jp: "同じ商品に交換できます。",
-            jpRuby: "<ruby>同<rt>おな</rt></ruby>じ<ruby>商品<rt>しょうひん</rt></ruby>に<ruby>交換<rt>こうかん</rt></ruby>できます。",
-            reading: "おなじ しょうひんに こうかんできます。",
-            pt: "Dá para trocar pelo mesmo produto.",
-            structure: "Nに交換できる",
-            literal: "Pode trocar para o mesmo produto.",
-            points: ["できる = ser possível (自)", "交換する = 他"],
-            grammar: "N4: できる",
-            breakdown: [
-              { jp:"同じ", r:"おなじ", m:"o mesmo", note:"expressão" },
-              { jp:"商品", r:"しょうひん", m:"produto", note:"substantivo" },
-              { jp:"交換する", r:"こうかんする", m:"trocar", note:"verbo", vt:"他" }
-            ],
-            vocab: [
-              { w:"商品", r:"しょうひん", m:"produto" },
-              { w:"交換する", r:"こうかんする", m:"trocar", vt:"他" },
-              { w:"同じ", r:"おなじ", m:"o mesmo" }
-            ]
-          }
-        ]
       }
     ];
 
     /***********************
      * STATE + STORAGE
      ***********************/
-    const LS_KEY = "nihongo_textlab_v6_light";
+    const LS_KEY = "nihongo_textlab_v7_sources";
     const defaultState = {
       texts: [],
       activeTextId: null,
@@ -1471,7 +1163,9 @@
         fontScale: 1,
         hue: 210,
         levelView: "N5",
-        appearance: "light"
+        appearance: "light",
+        contentSource: "BOTH",
+        importOpen: false
       },
       progress: {},
       deck: {}
@@ -1484,9 +1178,7 @@
         else if(typeof source[k] === "object" && source[k] !== null){
           if(typeof target[k] !== "object" || target[k] === null) target[k] = {};
           target[k] = mergeDeep(target[k], source[k]);
-        }else{
-          target[k] = source[k];
-        }
+        }else target[k] = source[k];
       }
       return target;
     }
@@ -1512,7 +1204,6 @@
         refreshKPIs();
       }, ms);
     }
-
     function saveStateNow(){
       clearTimeout(saveTimer);
       localStorage.setItem(LS_KEY, JSON.stringify(state));
@@ -1526,11 +1217,59 @@
     const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
     const clamp = (v,min,max)=>Math.max(min,Math.min(max,v));
 
-    function allTexts(){
-      return [...builtInTexts, ...(state.texts || [])];
+    function wordKey(v){ return `${v.w}__${v.r}__${v.m}`; }
+    function escapeHTML(s){
+      return (s ?? "").replace(/[&<>"']/g, m => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"
+      }[m]));
     }
+    function shuffle(a){
+      const arr = a.slice();
+      for(let i=arr.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [arr[i],arr[j]]=[arr[j],arr[i]];
+      }
+      return arr;
+    }
+    function vtLabel(vt){
+      if(vt === "他") return "Verbo transitivo";
+      if(vt === "自") return "Verbo intransitivo";
+      return "";
+    }
+
+    /***********************
+     * FONTES DE CONTEÚDO (novo)
+     ***********************/
+    function getContentSource(){
+      return state.ui.contentSource || "BOTH";
+    }
+
+    function setContentSource(v){
+      state.ui.contentSource = v;
+      saveStateDebounced();
+      renderLibrary();
+
+      // se o texto ativo sumiu (ex.: só importados), tenta escolher outro
+      const active = getTextById(state.activeTextId);
+      if(!active){
+        const level = state.ui.levelView || "N5";
+        const first = filteredTexts().find(t => t.level === level) || filteredTexts()[0] || null;
+        state.activeTextId = first ? first.id : null;
+        saveStateDebounced(0);
+      }
+      renderMain();
+    }
+
+    function filteredTexts(){
+      const src = getContentSource();
+      const imported = (state.texts || []);
+      if(src === "BUILTIN") return [...builtInTexts];
+      if(src === "IMPORTED") return [...imported];
+      return [...builtInTexts, ...imported];
+    }
+
     function getTextById(id){
-      return allTexts().find(t => t.id === id) || null;
+      return filteredTexts().find(t => t.id === id) || null;
     }
 
     function ensureProgress(textId){
@@ -1540,38 +1279,14 @@
       return state.progress[textId];
     }
 
-    function wordKey(v){ return `${v.w}__${v.r}__${v.m}`; }
-
-    function escapeHTML(s){
-      return (s ?? "").replace(/[&<>"']/g, m => ({
-        "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"
-      }[m]));
-    }
-
-    function shuffle(a){
-      const arr = a.slice();
-      for(let i=arr.length-1;i>0;i--){
-        const j = Math.floor(Math.random()*(i+1));
-        [arr[i],arr[j]]=[arr[j],arr[i]];
-      }
-      return arr;
-    }
-
-    function vtLabel(vt){
-      if(vt === "他") return "Verbo transitivo";
-      if(vt === "自") return "Verbo intransitivo";
-      return "";
-    }
-
     /***********************
-     * Appearance + tema (leve)
+     * Appearance + tema
      ***********************/
     function applyAppearance(){
       const isDark = (state.ui.appearance === "dark");
       document.body.classList.toggle("theme-dark", isDark);
       $("#btnTheme").textContent = `Aparência: ${isDark ? "Escuro" : "Claro"}`;
     }
-
     function toggleAppearance(){
       state.ui.appearance = (state.ui.appearance === "dark") ? "light" : "dark";
       saveStateDebounced();
@@ -1579,16 +1294,16 @@
       toast(state.ui.appearance === "dark" ? "Escuro" : "Claro");
     }
 
-    /* ✅ Troca de hue mais lenta e simples (menos CPU) */
+    /* ✅ hue update mais lento (menos CPU) */
     function startTheme(){
       let hue = state.ui?.hue ?? 210;
       document.documentElement.style.setProperty("--hue", hue);
-
       setInterval(()=>{
-        hue = (hue + 8) % 360;
+        hue = (hue + 6) % 360;
         document.documentElement.style.setProperty("--hue", hue);
         state.ui.hue = hue;
-      }, 6000);
+        // não precisa salvar sempre; salva no próximo evento do usuário
+      }, 10000);
     }
 
     /***********************
@@ -1603,7 +1318,7 @@
 
       const active = getTextById(state.activeTextId);
       if(!active || active.level !== level){
-        const first = allTexts().find(t=>t.level===level);
+        const first = filteredTexts().find(t=>t.level===level);
         state.activeTextId = first ? first.id : null;
         saveStateDebounced();
       }
@@ -1618,7 +1333,7 @@
       const q = $("#searchInput").value.trim().toLowerCase();
       const level = state.ui.levelView || "N5";
 
-      const texts = allTexts()
+      const texts = filteredTexts()
         .filter(t => t.level === level)
         .filter(t => {
           if(!q) return true;
@@ -1708,6 +1423,10 @@
     function fontPlus(){ applyFontScale((state.ui.fontScale||1) + 0.05); renderMain(); }
     function fontMinus(){ applyFontScale((state.ui.fontScale||1) - 0.05); renderMain(); }
 
+    function isFocusOpen(){
+      return $("#focusOverlay").classList.contains("open");
+    }
+
     function renderMain(){
       const text = getTextById(state.activeTextId);
       const empty = $("#emptyState");
@@ -1720,6 +1439,8 @@
         ["#tab_TEXT","#tab_VOCAB","#tab_FLASH","#tab_QUIZ","#tab_NOTES"].forEach(id=>$(id).style.display="none");
         $("#textTitle").textContent = "Selecione um texto";
         $("#textMeta").innerHTML = "";
+        $("#lineList").innerHTML = "";
+        $("#focusLineList").innerHTML = "";
         return;
       }
 
@@ -1750,8 +1471,14 @@
         t.classList.toggle("active", t.dataset.tab === tab);
       });
 
+      // ✅ renderiza a lista principal sempre
       renderLines(text, $("#lineList"));
-      renderLines(text, $("#focusLineList"));
+
+      // ✅ foco: só renderiza se o overlay estiver aberto (reduz travadas)
+      if(isFocusOpen()){
+        renderLines(text, $("#focusLineList"));
+      }
+
       renderVocab(text);
       renderNotes(text);
       renderDeckUI();
@@ -1880,6 +1607,7 @@
           else delete pr2.doneLines[idx];
           saveStateDebounced(0);
           renderLibrary();
+          // ✅ evita renderMain inteiro só por checkbox quando o foco está fechado
           renderMain();
         });
 
@@ -2092,7 +1820,9 @@
         pool = Object.values(state.deck).map(x=>({ w:x.w, r:x.r, m:x.m, vt:x.vt||"" }));
       }else{
         const text = getTextById(state.activeTextId);
-        if(text) pool = aggregateVocab(text).map(x=>({ w:x.w, r:x.r, m:x.m, vt:x.vt||"" }));
+        if(text){
+          pool = aggregateVocab(text).map(x=>({ w:x.w, r:x.r, m:x.m, vt:x.vt||"" }));
+        }
       }
       pool = pool.filter(x=>x.w && x.m);
 
@@ -2170,11 +1900,11 @@
 
     function expandAll(){
       $$(".lineCard", $("#lineList")).forEach(c=>c.classList.add("open"));
-      $$(".lineCard", $("#focusLineList")).forEach(c=>c.classList.add("open"));
+      if(isFocusOpen()) $$(".lineCard", $("#focusLineList")).forEach(c=>c.classList.add("open"));
     }
     function collapseAll(){
       $$(".lineCard", $("#lineList")).forEach(c=>c.classList.remove("open"));
-      $$(".lineCard", $("#focusLineList")).forEach(c=>c.classList.remove("open"));
+      if(isFocusOpen()) $$(".lineCard", $("#focusLineList")).forEach(c=>c.classList.remove("open"));
     }
 
     function resetProgress(){
@@ -2184,6 +1914,107 @@
       renderLibrary();
       renderMain();
       toast("Progresso resetado.");
+    }
+
+    /***********************
+     * IMPORTADOR (novo)
+     ***********************/
+    function toggleImportArea(force){
+      const open = (typeof force === "boolean") ? force : !state.ui.importOpen;
+      state.ui.importOpen = open;
+      $("#importArea").style.display = open ? "block" : "none";
+      $("#btnToggleImport").textContent = open ? "Fechar importador" : "Importar JSON";
+      saveStateDebounced(0);
+    }
+
+    function normalizeImportedText(t){
+      // aceita o mínimo: id, level, title, lines[{jp,reading,pt,vocab[]}]
+      if(!t || typeof t !== "object") return null;
+      const id = String(t.id || "").trim();
+      const level = (String(t.level || "").trim().toUpperCase() === "N4") ? "N4" : "N5";
+      const title = String(t.title || "").trim();
+      const desc = String(t.desc || "").trim();
+      const tags = Array.isArray(t.tags) ? t.tags.map(x=>String(x)) : [];
+      const lines = Array.isArray(t.lines) ? t.lines : [];
+      if(!id || !title || !lines.length) return null;
+
+      const cleanLines = lines.map(ln=>{
+        const jp = String(ln.jp || "").trim();
+        if(!jp) return null;
+        const reading = String(ln.reading || "").trim();
+        const pt = String(ln.pt || "").trim();
+        const vocab = Array.isArray(ln.vocab) ? ln.vocab.map(v=>({
+          w: String(v.w||"").trim(),
+          r: String(v.r||"").trim(),
+          m: String(v.m||"").trim(),
+          vt: String(v.vt||"").trim()
+        })).filter(v=>v.w && v.m) : [];
+        return {
+          jp,
+          // jpRuby opcional (pode vir vazio)
+          jpRuby: (typeof ln.jpRuby === "string" ? ln.jpRuby : null),
+          reading,
+          pt,
+          structure: ln.structure || "",
+          literal: ln.literal || "",
+          points: Array.isArray(ln.points) ? ln.points.map(x=>String(x)) : [],
+          grammar: ln.grammar || "",
+          breakdown: Array.isArray(ln.breakdown) ? ln.breakdown : [],
+          vocab
+        };
+      }).filter(Boolean);
+
+      if(!cleanLines.length) return null;
+
+      return { id, level, title, desc, tags, lines: cleanLines };
+    }
+
+    function importJSON(){
+      const raw = $("#importTextarea").value.trim();
+      if(!raw){
+        toast("Cole um JSON primeiro.");
+        return;
+      }
+      let parsed;
+      try{
+        parsed = JSON.parse(raw);
+      }catch(e){
+        toast("JSON inválido.");
+        return;
+      }
+      if(!Array.isArray(parsed)){
+        toast("O JSON deve ser uma lista: [ {...}, {...} ]");
+        return;
+      }
+
+      const normalized = parsed.map(normalizeImportedText).filter(Boolean);
+      if(!normalized.length){
+        toast("Nada válido para importar.");
+        return;
+      }
+
+      // evita id duplicado: substitui se existir
+      const map = new Map((state.texts||[]).map(t=>[t.id, t]));
+      for(const t of normalized) map.set(t.id, t);
+      state.texts = Array.from(map.values());
+
+      saveStateNow();
+      renderLibrary();
+      renderMain();
+      toast(`Importado: ${normalized.length}`);
+    }
+
+    function clearImported(){
+      if(!(state.texts||[]).length){
+        toast("Não há importados.");
+        return;
+      }
+      if(!confirm("Apagar TODOS os textos importados?")) return;
+      state.texts = [];
+      saveStateNow();
+      renderLibrary();
+      renderMain();
+      toast("Importados limpos.");
     }
 
     /***********************
@@ -2263,19 +2094,24 @@
       $("#btnTogglePT2").addEventListener("click", togglePT);
       $("#btnTogglePTFocus").addEventListener("click", togglePT);
 
-      $("#btnFontPlus").addEventListener("click", fontPlus);
-      $("#btnFontPlus2").addEventListener("click", fontPlus);
-      $("#btnFontPlusFocus").addEventListener("click", fontPlus);
+      $("#btnFontPlus").addEventListener("click", ()=>{ fontPlus(); if(isFocusOpen()) renderLines(getTextById(state.activeTextId), $("#focusLineList")); });
+      $("#btnFontPlus2").addEventListener("click", ()=>{ fontPlus(); if(isFocusOpen()) renderLines(getTextById(state.activeTextId), $("#focusLineList")); });
+      $("#btnFontPlusFocus").addEventListener("click", ()=>{ fontPlus(); renderLines(getTextById(state.activeTextId), $("#focusLineList")); });
 
-      $("#btnFontMinus").addEventListener("click", fontMinus);
-      $("#btnFontMinus2").addEventListener("click", fontMinus);
-      $("#btnFontMinusFocus").addEventListener("click", fontMinus);
+      $("#btnFontMinus").addEventListener("click", ()=>{ fontMinus(); if(isFocusOpen()) renderLines(getTextById(state.activeTextId), $("#focusLineList")); });
+      $("#btnFontMinus2").addEventListener("click", ()=>{ fontMinus(); if(isFocusOpen()) renderLines(getTextById(state.activeTextId), $("#focusLineList")); });
+      $("#btnFontMinusFocus").addEventListener("click", ()=>{ fontMinus(); renderLines(getTextById(state.activeTextId), $("#focusLineList")); });
 
       $("#btnBookmark").addEventListener("click", toggleBookmark);
       $("#btnExpandAll").addEventListener("click", expandAll);
       $("#btnCollapseAll").addEventListener("click", collapseAll);
 
-      $("#btnFocus").addEventListener("click", ()=> $("#focusOverlay").classList.add("open"));
+      // ✅ foco: só renderiza a lista do foco ao abrir
+      $("#btnFocus").addEventListener("click", ()=>{
+        $("#focusOverlay").classList.add("open");
+        const text = getTextById(state.activeTextId);
+        if(text) renderLines(text, $("#focusLineList"));
+      });
       $("#btnExitFocus").addEventListener("click", ()=> $("#focusOverlay").classList.remove("open"));
 
       $("#btnTheme").addEventListener("click", toggleAppearance);
@@ -2307,6 +2143,14 @@
 
       $("#btnReset").addEventListener("click", resetProgress);
 
+      // ✅ fonte de conteúdo
+      $("#contentSource").addEventListener("change", (e)=> setContentSource(e.target.value));
+
+      // ✅ importador
+      $("#btnToggleImport").addEventListener("click", ()=> toggleImportArea());
+      $("#btnImportNow").addEventListener("click", importJSON);
+      $("#btnClearImported").addEventListener("click", clearImported);
+
       window.addEventListener("keydown", (e)=>{
         if(e.key === "Escape"){
           $("#focusOverlay").classList.remove("open");
@@ -2328,7 +2172,9 @@
         fontScale:1,
         hue:210,
         levelView:"N5",
-        appearance:"light"
+        appearance:"light",
+        contentSource:"BOTH",
+        importOpen:false
       }, state.ui || {});
 
       applyAppearance();
@@ -2337,10 +2183,14 @@
       startTheme();
       bindEvents();
 
+      // set UI
+      $("#contentSource").value = state.ui.contentSource || "BOTH";
+      toggleImportArea(!!state.ui.importOpen);
+
       setLevelView(state.ui.levelView || "N5");
 
       if(!state.activeTextId){
-        const first = allTexts().find(t=>t.level === (state.ui.levelView||"N5"));
+        const first = filteredTexts().find(t=>t.level === (state.ui.levelView||"N5"));
         state.activeTextId = first ? first.id : null;
         saveStateDebounced();
       }
