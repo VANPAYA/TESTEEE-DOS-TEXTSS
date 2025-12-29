@@ -32,10 +32,10 @@
       --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
       --jp: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", var(--sans);
 
-      /* CONTROLE GLOBAL */
+      /* Controle global de tamanho */
       --fontScale: 1;
 
-      /* ✅ EXPLICAÇÕES MAIORES */
+      /* Explicações maiores (PT-BR) */
       --explainScale: 1.18;
     }
 
@@ -655,7 +655,6 @@
   <div class="aurora"></div>
 
   <div class="app" id="app">
-    <!-- LEFT -->
     <section class="panel" id="leftPanel" aria-label="Biblioteca">
       <div class="panelHeader">
         <div class="brand">
@@ -672,7 +671,6 @@
 
       <div class="content">
         <div class="col">
-          <!-- ✅ TROCA: no lugar do "N4" agora é "Estruturas N5" -->
           <div class="segmented" aria-label="Conteúdo">
             <button class="segBtn active" id="segTEXTOS" type="button">TEXTOS N5</button>
             <button class="segBtn" id="segEST" type="button">ESTRUTURAS N5</button>
@@ -700,7 +698,7 @@
               <span class="ic" aria-hidden="true">
                 <svg viewBox="0 0 24 24"><path d="M12 6V3L8 7l4 4V8c2.76 0 5 2.24 5 5a5 5 0 1 1-9.9-1h-2.02A7 7 0 1 0 12 6z"/></svg>
               </span>
-              Reset progresso
+              Resetar progresso
             </button>
           </div>
 
@@ -711,7 +709,6 @@
       </div>
     </section>
 
-    <!-- RIGHT -->
     <section class="panel" aria-label="Leitor">
       <div class="panelHeader">
         <div class="mainHeader">
@@ -747,8 +744,9 @@
               <span class="tag">N5</span>
             </div>
             <p>
-              Use <b>TEXTOS N5</b> para leitura e treino de compreensão. Use <b>ESTRUTURAS N5</b> para padrões/gramática + frases de exemplo explicadas.
-              Ajuste o tamanho com <b>A-/A+</b>.
+              Use <b>TEXTOS N5</b> para leitura e treino de compreensão.
+              Use <b>ESTRUTURAS N5</b> para padrões/gramática com frases explicadas.
+              Ajuste o tamanho com <b>A- / A+</b>.
             </p>
           </div>
 
@@ -795,7 +793,7 @@
           <div class="box">
             <div class="boxTitle">
               <b>Deck</b>
-              <span class="tag">repetição</span>
+              <span class="tag">revisão</span>
             </div>
             <p>Revele a resposta e marque sua confiança (1/2/3). O site agenda automaticamente.</p>
           </div>
@@ -861,7 +859,7 @@
           <div class="box">
             <div class="boxTitle">
               <b>Notas</b>
-              <span class="tag">auto-save</span>
+              <span class="tag">salva automático</span>
             </div>
             <p>Guarde padrões, frases úteis e observações rápidas.</p>
             <textarea class="textarea" id="textNotes" placeholder="Ex.: 〜てから / 〜たい / は vs が / etc."></textarea>
@@ -876,7 +874,6 @@
     </section>
   </div>
 
-  <!-- Focus overlay -->
   <div class="focus" id="focusOverlay">
     <section class="panel" style="height:100%">
       <div class="panelHeader">
@@ -904,16 +901,10 @@
   </div>
 
   <script>
-    /***********************
-     * BUILT-IN (N5)
-     * ✅ Agora existem 2 “categorias” no lugar do N4:
-     * - level: "TEXTOS"
-     * - level: "ESTRUTURAS"
-     ***********************/
     const builtInTexts = [
 
       /* ===========================
-         TEXTOS N5 (vários)
+         TEXTOS N5
          =========================== */
       {
         id: "t_n5_school_day",
@@ -1409,7 +1400,7 @@
       },
 
       /* ===========================
-         ESTRUTURAS N5 (gramática + exemplos explicados)
+         ESTRUTURAS N5 (gramática + exemplos explicados em PT-BR)
          =========================== */
       {
         id: "g_n5_wa_ga",
@@ -1759,9 +1750,6 @@
       }
     ];
 
-    /***********************
-     * STATE + STORAGE
-     ***********************/
     const LS_KEY = "nihongo_textlab_v5_n5_textos_estruturas";
     const defaultState = {
       texts: [],
@@ -1773,7 +1761,7 @@
         showPT: true,
         fontScale: 1,
         hue: 210,
-        view: "TEXTOS",   // ✅ TEXTOS ou ESTRUTURAS
+        view: "TEXTOS",
         appearance: "light"
       },
       progress: {},
@@ -1821,9 +1809,6 @@
       refreshKPIs();
     }
 
-    /***********************
-     * HELPERS
-     ***********************/
     const $ = (sel, root=document) => root.querySelector(sel);
     const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
     const clamp = (v,min,max)=>Math.max(min,Math.min(max,v));
@@ -1865,9 +1850,6 @@
       return "";
     }
 
-    /***********************
-     * THEME + Appearance
-     ***********************/
     function applyAppearance(){
       const isDark = (state.ui.appearance === "dark");
       document.body.classList.toggle("theme-dark", isDark);
@@ -1891,9 +1873,6 @@
       document.documentElement.style.setProperty("--hue", hue);
     }
 
-    /***********************
-     * VIEW SWITCH (TEXTOS / ESTRUTURAS)
-     ***********************/
     function setView(view){
       state.ui.view = view;
       $("#segTEXTOS").classList.toggle("active", view==="TEXTOS");
@@ -1910,9 +1889,6 @@
       renderMain();
     }
 
-    /***********************
-     * RENDER: LIBRARY
-     ***********************/
     function renderLibrary(){
       const list = $("#libraryList");
       const q = $("#searchInput").value.trim().toLowerCase();
@@ -1959,9 +1935,6 @@
       });
     }
 
-    /***********************
-     * RENDER: MAIN
-     ***********************/
     function setActiveText(id){
       state.activeTextId = id;
       ensureProgress(id);
@@ -2160,7 +2133,7 @@
 
                 <div class="box">
                   <div class="boxTitle"><b>Minha nota</b></div>
-                  <textarea class="textarea" data-action="lineNote" placeholder="Escreva aqui (auto-save)..." style="min-height:90px">${escapeHTML(lineNote)}</textarea>
+                  <textarea class="textarea" data-action="lineNote" placeholder="Escreva aqui (salva automaticamente)..." style="min-height:90px">${escapeHTML(lineNote)}</textarea>
                 </div>
               </div>
             </div>
@@ -2291,9 +2264,6 @@
       };
     }
 
-    /***********************
-     * DECK
-     ***********************/
     function addVocabToDeck(arr){
       const now = Date.now();
       for(const v of arr){
@@ -2351,7 +2321,7 @@
       $("#flashReading").textContent = (card.r || "") + vt;
 
       $("#flashMeaning").textContent = card.m || "";
-      $("#deckStatus").textContent = `Cards: ${total} • Devidos agora: ${dueCount}`;
+      $("#deckStatus").textContent = `Cartões: ${total} • Devidos agora: ${dueCount}`;
     }
 
     function rateCard(score){
@@ -2382,9 +2352,6 @@
       renderDeckUI();
     }
 
-    /***********************
-     * QUIZ
-     ***********************/
     function buildQuizItems(source, count){
       let pool = [];
       if(source === "DECK"){
@@ -2453,9 +2420,6 @@
       });
     }
 
-    /***********************
-     * BOOKMARK / BULK OPEN
-     ***********************/
     function toggleBookmark(){
       const item = getTextById(state.activeTextId);
       if(!item) return;
@@ -2477,7 +2441,7 @@
     }
 
     function resetProgress(){
-      if(!confirm("Resetar progresso (revisadas, favoritos e notas)? Deck e itens ficam.")) return;
+      if(!confirm("Resetar progresso (revisadas, favoritos e notas)? O deck e os itens continuam.")) return;
       state.progress = {};
       saveStateNow();
       renderLibrary();
@@ -2485,9 +2449,6 @@
       toast("Progresso resetado.");
     }
 
-    /***********************
-     * KPI
-     ***********************/
     function refreshKPIs(){
       let doneTotal = 0;
       for(const tid of Object.keys(state.progress||{})){
@@ -2497,9 +2458,6 @@
       $("#kpiDeck").textContent = Object.keys(state.deck||{}).length;
     }
 
-    /***********************
-     * TOAST
-     ***********************/
     let toastTimer = null;
     function toast(msg){
       clearTimeout(toastTimer);
@@ -2540,9 +2498,6 @@
       toastTimer = setTimeout(()=>{ el.style.opacity = "0"; }, 1600);
     }
 
-    /***********************
-     * EVENTS + INIT
-     ***********************/
     function bindEvents(){
       $$(".tab").forEach(t=> t.addEventListener("click", ()=> setTab(t.dataset.tab)));
       $("#searchInput").addEventListener("input", renderLibrary);
