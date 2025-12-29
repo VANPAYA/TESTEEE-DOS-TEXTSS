@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>日本語テキストラボ — N5 (Textos + Estruturas)</title>
+  <title>日本語テキストラボ — JLPT N5 (Textos + Estruturas)</title>
 
   <style>
     :root{
@@ -15,302 +15,435 @@
       --stroke2: rgba(15,25,45,.10);
       --text:#0E1630;
       --muted: rgba(14,22,48,.72);
-      --muted2: rgba(14,22,48,.55);
-
-      --accent: #4F46E5;
-      --accent2:#06B6D4;
-      --accent3:#F97316;
-
-      --good:#16a34a;
-      --bad:#ef4444;
-      --warn:#f59e0b;
+      --muted2: rgba(14,22,48,.58);
+      --accent:#3B82F6;
+      --accent2:#22C55E;
+      --warn:#F59E0B;
+      --bad:#EF4444;
 
       --radius:18px;
-      --shadow: 0 18px 55px rgba(15,25,45,.10);
-      --shadow2: 0 12px 40px rgba(15,25,45,.08);
+      --shadow: 0 14px 34px rgba(15,25,45,.10);
+      --shadow2: 0 10px 22px rgba(15,25,45,.08);
 
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      --jp: ui-sans-serif, system-ui, -apple-system, "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans JP", sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
     }
 
-    *{box-sizing:border-box}
-    html,body{height:100%}
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
     body{
       margin:0;
-      font-family:var(--sans);
+      font-family: var(--font);
       color:var(--text);
       background:
-        radial-gradient(1200px 520px at 15% 0%, rgba(79,70,229,.10), transparent 55%),
-        radial-gradient(900px 520px at 85% 10%, rgba(6,182,212,.10), transparent 55%),
+        radial-gradient(1000px 700px at 20% -10%, rgba(59,130,246,.20), transparent 60%),
+        radial-gradient(900px 600px at 95% 10%, rgba(34,197,94,.16), transparent 55%),
         linear-gradient(180deg, var(--bg0), var(--bg1));
     }
 
-    a{color:inherit}
-    .wrap{max-width:1200px;margin:0 auto;padding:22px 18px 38px}
+    .wrap{
+      max-width:1100px;
+      margin:0 auto;
+      padding:26px 16px 44px;
+    }
 
     header{
-      display:flex;gap:14px;align-items:flex-start;justify-content:space-between;
-      padding:18px 18px 8px;
-      position:sticky;top:0;z-index:20;
-      background: linear-gradient(180deg, rgba(246,248,255,.94), rgba(246,248,255,.72));
+      display:flex;
+      gap:14px;
+      align-items:flex-start;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      padding:16px 18px;
+      border:1px solid var(--stroke);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.86), rgba(255,255,255,.70));
+      box-shadow: var(--shadow);
       backdrop-filter: blur(10px);
-      border-bottom:1px solid var(--stroke2);
-    }
-    .brand{display:flex;gap:12px;align-items:center;min-width:280px}
-    .logo{
-      width:44px;height:44px;border-radius:14px;
-      background:
-        radial-gradient(18px 18px at 30% 30%, rgba(255,255,255,.85), transparent 55%),
-        linear-gradient(135deg, rgba(79,70,229,.95), rgba(6,182,212,.85));
-      box-shadow: var(--shadow2);
-      border:1px solid rgba(255,255,255,.55);
-      flex:0 0 auto;
-    }
-    h1{
-      margin:0;
-      font-size:16px;
-      letter-spacing:.2px;
-      line-height:1.15;
-    }
-    .subtitle{
-      margin:4px 0 0;
-      font-size:12px;
-      color:var(--muted);
     }
 
-    .topControls{
-      display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+    .brand{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      min-width:260px;
+    }
+
+    .titleRow{
+      display:flex;
+      align-items:baseline;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    h1{
+      margin:0;
+      font-size:20px;
+      letter-spacing:.2px;
+    }
+
+    .pill{
+      font-size:12px;
+      padding:4px 10px;
+      border-radius:999px;
+      border:1px solid var(--stroke);
+      background: rgba(59,130,246,.08);
+      color: rgba(15,25,45,.85);
+    }
+
+    .sub{
+      margin:0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.35;
+    }
+
+    .tools{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
       justify-content:flex-end;
     }
 
     .search{
-      display:flex;align-items:center;gap:8px;
-      padding:10px 12px;
-      background:var(--card);
-      border:1px solid var(--stroke);
-      border-radius:14px;
-      box-shadow: var(--shadow2);
-      min-width: min(520px, 64vw);
+      position:relative;
+      min-width:min(520px, 92vw);
+      max-width:520px;
+      flex:1;
     }
+
     .search input{
       width:100%;
-      border:0;
-      outline:none;
-      background:transparent;
-      color:var(--text);
-      font-size:14px;
-    }
-    .pill{
-      display:inline-flex;align-items:center;gap:8px;
-      padding:10px 12px;
-      background:var(--card);
-      border:1px solid var(--stroke);
+      padding:12px 42px 12px 14px;
       border-radius:14px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.84);
+      outline:none;
+      font-size:14px;
       box-shadow: var(--shadow2);
-      font-size:13px;
-      color:var(--muted);
-      user-select:none;
-      cursor:pointer;
-      transition: transform .08s ease, border-color .12s ease;
     }
-    .pill:active{transform:scale(.98)}
-    .pill strong{color:var(--text);font-weight:700}
-    .dot{
-      width:10px;height:10px;border-radius:99px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      box-shadow: 0 0 0 4px rgba(79,70,229,.12);
+    .search input:focus{
+      border-color: rgba(59,130,246,.35);
+      box-shadow: 0 0 0 4px rgba(59,130,246,.12), var(--shadow2);
+    }
+
+    .search .icon{
+      position:absolute;
+      right:12px;
+      top:50%;
+      transform:translateY(-50%);
+      opacity:.55;
+      user-select:none;
+      font-size:16px;
     }
 
     .tabs{
-      margin:18px 0 10px;
-      display:flex;gap:10px;flex-wrap:wrap;
+      margin-top:14px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
     }
-    .tab{
-      padding:10px 12px;
-      border-radius:999px;
+
+    .tabBtn{
       border:1px solid var(--stroke);
-      background: rgba(255,255,255,.60);
-      color:var(--muted);
+      background: rgba(255,255,255,.75);
+      padding:10px 12px;
+      border-radius: 14px;
       cursor:pointer;
-      user-select:none;
-      transition: .12s ease;
+      font-weight:700;
       font-size:13px;
+      color: rgba(14,22,48,.90);
+      transition: transform .08s ease, background .2s ease, border-color .2s ease;
+      box-shadow: var(--shadow2);
     }
-    .tab.active{
-      background: linear-gradient(135deg, rgba(79,70,229,.12), rgba(6,182,212,.12));
-      color:var(--text);
-      border-color: rgba(79,70,229,.26);
+    .tabBtn:active{ transform: scale(.99); }
+    .tabBtn.active{
+      background: rgba(59,130,246,.12);
+      border-color: rgba(59,130,246,.28);
     }
 
     .grid{
+      margin-top:14px;
       display:grid;
-      grid-template-columns: 1.25fr .85fr;
+      grid-template-columns: 1.05fr .95fr;
       gap:14px;
       align-items:start;
     }
     @media (max-width: 980px){
-      header{position:relative}
-      .grid{grid-template-columns: 1fr}
-      .search{min-width: 0; width:100%}
-      .brand{min-width:0}
+      .grid{ grid-template-columns: 1fr; }
+      .search{ min-width: min(680px, 92vw); max-width: 100%; }
+    }
+
+    .panel{
+      border:1px solid var(--stroke);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, var(--card), var(--card2));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      backdrop-filter: blur(10px);
+    }
+
+    .panelHead{
+      padding:14px 16px;
+      border-bottom:1px solid var(--stroke2);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .panelHead h2{
+      margin:0;
+      font-size:14px;
+      letter-spacing:.2px;
+    }
+    .panelHead .meta{
+      color:var(--muted);
+      font-size:12px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+
+    .content{
+      padding:14px 16px 16px;
     }
 
     .card{
-      background: linear-gradient(180deg, var(--card), var(--card2));
       border:1px solid var(--stroke);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-    .cardHead{
-      padding:14px 14px 12px;
-      display:flex;justify-content:space-between;align-items:center;gap:12px;
-      border-bottom: 1px solid var(--stroke2);
-    }
-    .cardTitle{
-      font-size:14px;
-      font-weight:800;
-      letter-spacing:.2px;
-      margin:0;
-    }
-    .badge{
-      display:inline-flex;align-items:center;gap:6px;
-      padding:6px 10px;
-      border-radius:999px;
-      font-size:12px;
-      color:var(--muted);
-      border:1px solid var(--stroke2);
-      background: rgba(255,255,255,.55);
-      white-space:nowrap;
-    }
-    .cardBody{padding:14px}
-    .hint{color:var(--muted);font-size:12px;line-height:1.45;margin:0}
-
-    .list{display:flex;flex-direction:column;gap:12px}
-    .item{
-      border:1px solid var(--stroke2);
       border-radius: 16px;
-      background: rgba(255,255,255,.58);
+      background: rgba(255,255,255,.74);
+      box-shadow: var(--shadow2);
       overflow:hidden;
+      margin-bottom:12px;
     }
-    .itemTop{
-      padding:12px 12px 10px;
-      display:flex;gap:10px;justify-content:space-between;align-items:flex-start;
-    }
-    .itemLeft{min-width:0}
-    .itemTagRow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
-    .tag{
-      font-size:11px;
-      padding:4px 8px;
-      border-radius:999px;
-      border:1px solid var(--stroke2);
-      color:var(--muted);
-      background: rgba(255,255,255,.55);
-    }
-    .tag.level{border-color: rgba(79,70,229,.22); color: rgba(45,55,120,.88)}
-    .tag.type{border-color: rgba(6,182,212,.24)}
-    .tag.common{border-color: rgba(249,115,22,.22)}
-    .jp{
-      margin:0;
-      font-size:18px;
-      line-height:1.35;
-      letter-spacing:.2px;
-      word-break:break-word;
-    }
-    .reading{
-      margin:7px 0 0;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.35;
-      word-break:break-word;
-    }
-    .toggle{
-      flex:0 0 auto;
-      border:1px solid var(--stroke);
-      background: rgba(255,255,255,.62);
-      border-radius: 12px;
-      padding:8px 10px;
+
+    .cardHead{
+      padding:12px 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
       cursor:pointer;
       user-select:none;
-      font-size:12px;
-      color:var(--muted);
-      transition: .12s ease;
     }
-    .toggle:hover{border-color: rgba(79,70,229,.22)}
-    .itemBody{
-      padding:0 12px 12px;
+
+    .cardTitle{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      min-width:0;
+    }
+
+    .cardTitle .t1{
+      font-weight:900;
+      font-size:13px;
+      color: rgba(14,22,48,.92);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .cardTitle .t2{
+      font-family: var(--jp);
+      color: rgba(14,22,48,.82);
+      font-size:13px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .chev{
+      opacity:.60;
+      font-size:14px;
+      transition: transform .18s ease;
+    }
+    .card.open .chev{ transform: rotate(180deg); }
+
+    .cardBody{
       display:none;
+      padding:0 12px 12px;
+      border-top:1px solid var(--stroke2);
     }
-    .itemBody.open{display:block}
-    .sep{height:1px;background: var(--stroke2); margin:10px 0}
+    .card.open .cardBody{ display:block; }
+
+    .jpBlock{
+      font-family: var(--jp);
+      font-size:18px;
+      line-height:1.85;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px dashed rgba(59,130,246,.22);
+      background: rgba(59,130,246,.06);
+      margin:10px 0 10px;
+      white-space:pre-wrap;
+    }
+
+    .ptBlock{
+      font-size:16px;        /* maior */
+      line-height:1.65;      /* maior */
+      color: rgba(14,22,48,.90);
+      margin:8px 0 10px;
+    }
+
+    .hint{
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.55;
+      margin:6px 0 10px;
+    }
+
+    .tagRow{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin:8px 0 10px;
+    }
+    .tag{
+      font-size:12px;
+      padding:4px 10px;
+      border-radius:999px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.65);
+      color: rgba(14,22,48,.82);
+    }
 
     .kv{
       display:grid;
-      grid-template-columns: 120px 1fr;
-      gap:8px 10px;
-      font-size:13px;
-      line-height:1.45;
+      grid-template-columns: 1fr;
+      gap:8px;
+      margin-top:10px;
     }
-    .kv b{color:var(--muted);font-weight:700}
-    .mono{
-      font-family: var(--mono);
-      font-size: 12px;
-      background: rgba(15,25,45,.05);
+
+    .kv .row{
       border:1px solid var(--stroke2);
-      padding:9px 10px;
-      border-radius: 12px;
-      overflow:auto;
-    }
-    .examples{
-      display:flex;flex-direction:column;gap:8px;
-      margin-top:8px;
-    }
-    .ex{
+      background: rgba(255,255,255,.66);
+      border-radius:14px;
       padding:10px 10px;
-      border-radius: 14px;
-      border:1px solid var(--stroke2);
-      background: rgba(255,255,255,.62);
     }
-    .ex .exjp{margin:0;font-size:15px;line-height:1.35}
-    .ex .expr{margin:6px 0 0;color:var(--muted);font-size:13px;line-height:1.35}
-    .small{font-size:12px;color:var(--muted);line-height:1.45;margin:0}
-    .rightStack{display:flex;flex-direction:column;gap:14px}
+
+    .kv .k{
+      font-family: var(--mono);
+      font-weight:900;
+      font-size:12px;
+      opacity:.75;
+      margin-bottom:6px;
+    }
+
+    .kv .v{
+      font-size:16px; /* maior */
+      line-height:1.65;
+    }
+
+    .examples{
+      margin-top:10px;
+      border-top:1px dashed rgba(15,25,45,.14);
+      padding-top:10px;
+    }
+
+    .ex{
+      border:1px solid var(--stroke2);
+      background: rgba(255,255,255,.66);
+      border-radius:14px;
+      padding:10px 10px;
+      margin-bottom:8px;
+    }
+    .ex .jp{
+      font-family: var(--jp);
+      font-size:16px;
+      line-height:1.75;
+      margin:0 0 6px;
+    }
+    .ex .rd{
+      font-size:13px;
+      color:var(--muted);
+      margin:0 0 6px;
+      line-height:1.55;
+    }
+    .ex .pt{
+      font-size:16px;
+      line-height:1.65;
+      margin:0;
+    }
+
+    .list{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
 
     .mini{
-      display:flex;flex-direction:column;gap:10px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
     }
-    .miniRow{
-      display:flex;gap:10px;flex-wrap:wrap;align-items:center;
-    }
-    .chip{
-      display:inline-flex;align-items:center;gap:8px;
-      padding:8px 10px;
-      border-radius: 999px;
-      border:1px solid var(--stroke2);
-      background: rgba(255,255,255,.55);
-      font-size:12px;
-      color:var(--muted);
-      cursor:pointer;
-      user-select:none;
-    }
-    .chip.active{
-      border-color: rgba(79,70,229,.30);
-      color: var(--text);
-      background: linear-gradient(135deg, rgba(79,70,229,.10), rgba(6,182,212,.08));
-    }
-    .stat{
-      display:flex;gap:8px;align-items:center;
+
+    .btn{
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.78);
       padding:10px 12px;
-      border-radius: 16px;
-      border:1px solid var(--stroke2);
-      background: rgba(255,255,255,.55);
+      border-radius:14px;
+      cursor:pointer;
+      font-weight:900;
+      font-size:13px;
+      box-shadow: var(--shadow2);
+    }
+    .btn:hover{ border-color: rgba(59,130,246,.30); }
+    .btn.primary{
+      background: rgba(59,130,246,.12);
+      border-color: rgba(59,130,246,.28);
+    }
+    .btn.good{
+      background: rgba(34,197,94,.10);
+      border-color: rgba(34,197,94,.26);
+    }
+    .btn.warn{
+      background: rgba(245,158,11,.10);
+      border-color: rgba(245,158,11,.26);
+    }
+    .btn.bad{
+      background: rgba(239,68,68,.10);
+      border-color: rgba(239,68,68,.26);
+    }
+
+    .small{
       font-size:12px;
       color:var(--muted);
+      line-height:1.55;
     }
-    .stat strong{color:var(--text)}
+
+    .deckCard{
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.76);
+      border-radius: 16px;
+      box-shadow: var(--shadow2);
+      padding:12px;
+    }
+    .deckQ{
+      font-family: var(--jp);
+      font-size:22px;
+      line-height:1.6;
+      margin:0 0 8px;
+    }
+    .deckA{
+      display:none;
+      margin-top:10px;
+      border-top:1px dashed rgba(15,25,45,.14);
+      padding-top:10px;
+    }
+    .deckA.open{ display:block; }
+    .deckA p{ margin:0 0 8px; }
+    .deckA .pt{ font-size:16px; line-height:1.65; }
+    .deckA .rd{ color:var(--muted); font-size:13px; line-height:1.55; }
+
     footer{
-      margin:18px 0 0;
-      color:var(--muted);
+      margin-top:14px;
+      color: rgba(14,22,48,.60);
       font-size:12px;
       text-align:center;
     }
@@ -318,823 +451,1298 @@
 </head>
 
 <body>
-  <header>
-    <div class="brand">
-      <div class="logo" aria-hidden="true"></div>
-      <div>
-        <h1>日本語テキストラボ — N5</h1>
-        <p class="subtitle">Textos cotidianos + estruturas que mais se repetem (com explicações em PT-BR).</p>
-      </div>
-    </div>
-
-    <div class="topControls">
-      <div class="search" role="search">
-        <span class="dot" aria-hidden="true"></span>
-        <input id="q" type="search" placeholder="Buscar (ex.: です, ましょう, から, います, ください, きょう, スーパー...)" />
-      </div>
-      <div class="pill" id="resetBtn" title="Limpar busca e filtros">
-        <strong>Reset</strong>
-      </div>
-    </div>
-  </header>
-
   <div class="wrap">
-    <div class="tabs" role="tablist" aria-label="Seções">
-      <div class="tab active" data-tab="texts" role="tab" aria-selected="true">Textos N5 (cotidiano)</div>
-      <div class="tab" data-tab="structures" role="tab" aria-selected="false">Estruturas N5 + frases</div>
-      <div class="tab" data-tab="quick" role="tab" aria-selected="false">Checklist rápido (N5)</div>
-    </div>
+    <header>
+      <div class="brand">
+        <div class="titleRow">
+          <h1>日本語テキストラボ — N5</h1>
+          <span class="pill">Textos + Estruturas (cotidiano)</span>
+        </div>
+        <p class="sub">
+          Conteúdo focado no **comum do N5**: frases do dia a dia, partículas e estruturas que mais repetem.
+          Tudo explicado em PT-BR e com exemplos variados (tempo verbal, contexto, formal/informal).
+        </p>
+      </div>
+
+      <div class="tools">
+        <div class="search">
+          <input id="q" type="text" placeholder="Buscar: partícula (に/で/へ), estrutura (〜てください), tema (compras, trem, trabalho)..." />
+          <span class="icon">🔎</span>
+        </div>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Abas">
+        <button class="tabBtn active" data-tab="texts" role="tab" aria-selected="true">Textos N5</button>
+        <button class="tabBtn" data-tab="structures" role="tab" aria-selected="false">Estruturas N5</button>
+        <button class="tabBtn" data-tab="vocab" role="tab" aria-selected="false">Vocabulário (comum)</button>
+        <button class="tabBtn" data-tab="deck" role="tab" aria-selected="false">Deck (revisão)</button>
+      </div>
+    </header>
 
     <div class="grid">
-      <section class="card" id="mainCard">
-        <div class="cardHead">
-          <h2 class="cardTitle" id="mainTitle">Textos N5 (cotidiano)</h2>
-          <div class="badge" id="countBadge">0 itens</div>
+      <!-- ESQUERDA: lista principal -->
+      <section class="panel" id="mainPanel">
+        <div class="panelHead">
+          <h2 id="panelTitle">Textos N5</h2>
+          <div class="meta">
+            <span id="countInfo">—</span>
+            <span>•</span>
+            <span class="small">Clique para abrir/fechar</span>
+          </div>
         </div>
-        <div class="cardBody">
-          <p class="hint" id="mainHint">
-            Clique em “Ver detalhes” para abrir explicação, vocabulário chave e estruturas usadas.
-            Tudo aqui é comum do dia a dia e bem “cara de JLPT N5”.
-          </p>
-          <div class="sep"></div>
-          <div class="list" id="list"></div>
-        </div>
+        <div class="content" id="mainList"></div>
       </section>
 
-      <aside class="rightStack">
-        <section class="card">
-          <div class="cardHead">
-            <h2 class="cardTitle">Filtros</h2>
-            <div class="badge">N5 • comum</div>
-          </div>
-          <div class="cardBody">
-            <div class="mini">
-              <p class="small">Filtre por tipo de conteúdo (sem mudar o resto do site):</p>
-              <div class="miniRow" id="typeChips"></div>
-              <div class="stat" id="statLine"><span class="dot" aria-hidden="true"></span><strong>0</strong> resultados</div>
-              <p class="small">Dica: busque por partículas (は/が/を/に/で), tempos (ました/ません) ou pedidos (ください).</p>
+      <!-- DIREITA: resumo/ajuda + deck -->
+      <aside class="panel" id="sidePanel">
+        <div class="panelHead">
+          <h2>Guia rápido (N5 bem comum)</h2>
+          <div class="meta"><span class="small">partículas & padrões</span></div>
+        </div>
+        <div class="content">
+          <div class="card open">
+            <div class="cardHead" data-toggle>
+              <div class="cardTitle">
+                <div class="t1">Partículas que mais aparecem</div>
+                <div class="t2">は / が / を / に / で / へ / と / も / から / まで / の</div>
+              </div>
+              <div class="chev">▾</div>
+            </div>
+            <div class="cardBody">
+              <div class="kv">
+                <div class="row">
+                  <div class="k">は</div>
+                  <div class="v">Tópico. “Quanto a…”. Ex.: わたしは学生です。</div>
+                </div>
+                <div class="row">
+                  <div class="k">が</div>
+                  <div class="v">Sujeito / foco / “tem”. Ex.: ねこがいます。／日本語が好きです。</div>
+                </div>
+                <div class="row">
+                  <div class="k">を</div>
+                  <div class="v">Objeto direto. Ex.: パンを食べます。</div>
+                </div>
+                <div class="row">
+                  <div class="k">に / で / へ</div>
+                  <div class="v">に: destino/tempo/“em” (existir). で: local da ação/meio. へ: direção (“para”).</div>
+                </div>
+                <div class="row">
+                  <div class="k">から / まで</div>
+                  <div class="v">de… até… (tempo/lugar). Ex.: 9時から5時まで。</div>
+                </div>
+                <div class="row">
+                  <div class="k">の</div>
+                  <div class="v">posse/ligação. Ex.: わたしの本。／日本の食べ物。</div>
+                </div>
+              </div>
+              <p class="hint">Dica de gestão de risco no estudo: repita o “core” (partículas + ます/です + て-forma) até ficar automático. O resto encaixa em cima disso.</p>
             </div>
           </div>
-        </section>
 
-        <section class="card">
-          <div class="cardHead">
-            <h2 class="cardTitle">Estruturas que mais caem</h2>
-            <div class="badge">N5 core</div>
+          <div class="card">
+            <div class="cardHead" data-toggle>
+              <div class="cardTitle">
+                <div class="t1">Padrões que repetem toda hora</div>
+                <div class="t2">AはBです / AはBが好き / Aにあります・います / Aをします</div>
+              </div>
+              <div class="chev">▾</div>
+            </div>
+            <div class="cardBody">
+              <div class="examples">
+                <div class="ex">
+                  <p class="jp">わたしはブラジル人です。</p>
+                  <p class="rd">Leitura: わたしは ぶらじるじん です。</p>
+                  <p class="pt">Eu sou brasileiro(a).</p>
+                </div>
+                <div class="ex">
+                  <p class="jp">日本語が好きです。</p>
+                  <p class="rd">Leitura: にほんご が すき です。</p>
+                  <p class="pt">Eu gosto de japonês.</p>
+                </div>
+                <div class="ex">
+                  <p class="jp">コンビニは駅の近くにあります。</p>
+                  <p class="rd">Leitura: こんびには えきの ちかく に あります。</p>
+                  <p class="pt">A loja de conveniência fica perto da estação.</p>
+                </div>
+                <div class="ex">
+                  <p class="jp">毎日コーヒーを飲みます。</p>
+                  <p class="rd">Leitura: まいにち こーひー を のみます。</p>
+                  <p class="pt">Eu tomo café todos os dias.</p>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="cardBody">
-            <p class="small" style="margin-top:0">
-              Aqui estão as “formas padrão” que se repetem o tempo todo. Elas também aparecem nos textos.
-            </p>
-            <div class="mono" id="coreBox"></div>
+
+          <div class="card" id="deckSide">
+            <div class="cardHead" data-toggle>
+              <div class="cardTitle">
+                <div class="t1">Deck rápido (revisão)</div>
+                <div class="t2">um cartão por vez</div>
+              </div>
+              <div class="chev">▾</div>
+            </div>
+            <div class="cardBody">
+              <div class="mini" style="margin:10px 0 12px;">
+                <button class="btn primary" id="deckShow">Mostrar resposta</button>
+                <button class="btn" id="deckNext">Próximo</button>
+                <button class="btn warn" id="deckShuffle">Embaralhar</button>
+              </div>
+
+              <div class="deckCard">
+                <p class="deckQ" id="deckQ">—</p>
+                <div class="deckA" id="deckA">
+                  <p class="rd" id="deckRd">—</p>
+                  <p class="pt" id="deckPt">—</p>
+                  <p class="small" id="deckMeta">—</p>
+                </div>
+              </div>
+
+              <p class="small" style="margin-top:10px;">
+                Dica: trate como “backtest”. Se você erra uma estrutura 2x, ela vira prioridade e entra no topo do seu treino.
+              </p>
+            </div>
           </div>
-        </section>
+        </div>
       </aside>
     </div>
 
     <footer>
-      Feito para treino rápido: ler → entender a estrutura → repetir em outros contextos.
+      N5 focado no cotidiano • Explicações em PT-BR • Frases variando tempo verbal e contexto
     </footer>
   </div>
 
   <script>
     // =========================
-    // DADOS (N5 / cotidiano)
+    // DADOS — TEXTOS (N5 COMUM)
     // =========================
     const TEXTS = [
       {
-        id:"t01",
-        level:"N5",
-        type:"Texto",
-        common:"Cotidiano",
-        title:"Manhã corrida (casa → estação)",
-        jp:`きょうは ７じに おきました。あさごはんを たべて、コーヒーを のみました。８じに えきへ いきました。でんしゃは こんでいました。`,
-        reading:`Kyō wa shichi-ji ni okimashita. Asa-gohan o tabete, kōhī o nomimashita. Hachi-ji ni eki e ikimashita. Densha wa konde imashita.`,
-        pt:`Hoje eu acordei às 7. Eu comi café da manhã e bebi café. Às 8 eu fui para a estação. O trem estava cheio.`,
-        vocab:[
-          ["きょう","hoje"],
-          ["おきます","acordar (polido)"],
-          ["あさごはん","café da manhã"],
-          ["えき","estação"],
-          ["でんしゃ","trem"],
-          ["こんでいます","estar cheio/lotado"]
-        ],
-        grammar:[
-          ["～じに","marcador de horário: “às ~ horas”"],
-          ["Vて、V","sequência de ações: “faço X e (depois) faço Y”"],
-          ["～へ / ～に いきます","ir para ~ (direção/destino)"],
-          ["～ています","estado/condição atual (ex.: lotado)"]
-        ],
-        patterns:["～じに","Vて、V","～へ いきます","～ています"]
+        title: "Manhã normal (em casa)",
+        subtitle: "朝(あさ)のルーティン",
+        tags: ["rotina", "tempo", "casa"],
+        jp:
+`今日は6時(ろくじ)に起(お)きます。
+水(みず)を飲(の)んで、シャワーを浴(あ)びます。
+7時(しちじ)に朝(あさ)ごはんを食(た)べます。
+8時(はちじ)に家(いえ)を出(で)ます。`,
+        pt:
+`Texto bem “padrão N5” para treinar:
+- tempo (〜時に)
+- sequência de ações (〜て)
+- rotina com ます-forma.`,
+        vocab: [
+          ["起きます(おきます)", "acordar / levantar"],
+          ["飲みます(のみます)", "beber"],
+          ["浴びます(あびます)", "tomar (banho/chuveiro)"],
+          ["朝ごはん(あさごはん)", "café da manhã"],
+          ["出ます(でます)", "sair (de casa), partir"]
+        ]
       },
       {
-        id:"t02",
-        level:"N5",
-        type:"Texto",
-        common:"Cotidiano",
-        title:"No konbini (pedido simples)",
-        jp:`コンビニで おにぎりを ２つ かいました。あたたかい おちゃも ください。レジで カードで はらいました。`,
-        reading:`Konbini de onigiri o futatsu kaimashita. Atatakai ocha mo kudasai. Reji de kādo de haraimashita.`,
-        pt:`No konbini eu comprei dois onigiri. Também, por favor, um chá quente. No caixa eu paguei com cartão.`,
-        vocab:[
-          ["コンビニ","loja de conveniência"],
-          ["おにぎり","bolinho de arroz"],
-          ["２つ","dois (contador para coisas)"],
-          ["あたたかい","quente (temperatura)"],
-          ["ください","por favor (pedido)"],
-          ["はらいます","pagar"]
-        ],
-        grammar:[
-          ["Nを かいます","comprar algo"],
-          ["Nも","“também”"],
-          ["Nで","meio/local (aqui: meio de pagamento “com cartão”)"],
-          ["ください","pedido direto e comum"]
-        ],
-        patterns:["Nを かいます","Nも","Nで","ください"]
+        title: "No trem (indo para o trabalho)",
+        subtitle: "電車(でんしゃ)で会社(かいしゃ)へ",
+        tags: ["trem", "trabalho", "direção"],
+        jp:
+`わたしは電車(でんしゃ)で会社(かいしゃ)へ行(い)きます。
+駅(えき)まで歩(ある)きます。
+電車(でんしゃ)はいつも混(こ)んでいます。
+でも、音楽(おんがく)を聞(き)きます。`,
+        pt:
+`Aqui você treina:
+- meio/forma: 電車で
+- direção: 会社へ
+- estado frequente: 〜ています (混んでいます)
+- contraste simples: でも`,
+        vocab: [
+          ["電車(でんしゃ)", "trem"],
+          ["会社(かいしゃ)", "empresa"],
+          ["駅(えき)", "estação"],
+          ["歩きます(あるきます)", "andar a pé"],
+          ["混んでいます(こんでいます)", "estar lotado"],
+          ["聞きます(ききます)", "ouvir / perguntar"]
+        ]
       },
       {
-        id:"t03",
-        level:"N5",
-        type:"Texto",
-        common:"Cotidiano",
-        title:"Perguntando localização (na rua)",
-        jp:`すみません。ゆうびんきょくは どこですか。まっすぐ いって、みぎに まがってください。`,
-        reading:`Sumimasen. Yūbinkyoku wa doko desu ka. Massugu itte, migi ni magatte kudasai.`,
-        pt:`Com licença. Onde fica o correio? Vá reto e vire à direita, por favor.`,
-        vocab:[
-          ["すみません","com licença / desculpe"],
-          ["ゆうびんきょく","correio"],
-          ["どこ","onde"],
-          ["まっすぐ","reto"],
-          ["みぎ","direita"],
-          ["まがります","virar"]
-        ],
-        grammar:[
-          ["Nは どこですか","pergunta de localização"],
-          ["Vてください","pedido / instrução educada"],
-          ["みぎ/ひだりに まがります","virar para a direita/esquerda"]
-        ],
-        patterns:["Nは どこですか","Vてください"]
+        title: "Compras no konbini",
+        subtitle: "コンビニで買(か)い物(もの)",
+        tags: ["compras", "preço", "pedido"],
+        jp:
+`すみません、水(みず)はどこですか。
+— あそこです。
+これを二(ふた)つください。
+いくらですか。
+— 300円(さんびゃくえん)です。`,
+        pt:
+`Treino puro do cotidiano:
+- どこですか (onde fica?)
+- ください (pedido educado)
+- いくらですか (quanto custa?)`,
+        vocab: [
+          ["すみません", "com licença / desculpa"],
+          ["あそこ", "ali (longe de ambos)"],
+          ["二つ(ふたつ)", "dois (coisas)"],
+          ["ください", "por favor (me dê)"],
+          ["円(えん)", "iene"]
+        ]
       },
       {
-        id:"t04",
-        level:"N5",
-        type:"Texto",
-        common:"Cotidiano",
-        title:"Restaurante (preferência + pedido)",
-        jp:`わたしは さかなが すきです。でも、きょうは にくを たべたいです。みずを ください。`,
-        reading:`Watashi wa sakana ga suki desu. Demo, kyō wa niku o tabetai desu. Mizu o kudasai.`,
-        pt:`Eu gosto de peixe. Mas hoje eu quero comer carne. Por favor, água.`,
-        vocab:[
-          ["さかな","peixe"],
-          ["すき","gostar"],
-          ["でも","mas"],
-          ["にく","carne"],
-          ["たべたい","querer comer"],
-          ["みず","água"]
-        ],
-        grammar:[
-          ["Nが すきです","gosto de ~"],
-          ["でも","contraste: “mas”"],
-          ["Vたいです","desejo: “quero fazer ~”"],
-          ["Nを ください","pedido simples: “~ por favor”"]
-        ],
-        patterns:["Nが すきです","でも","Vたいです","Nを ください"]
+        title: "Almoço simples",
+        subtitle: "昼(ひる)ごはん",
+        tags: ["comida", "preferência", "lugar"],
+        jp:
+`今日(きょう)は友達(ともだち)とラーメンを食(た)べました。
+とてもおいしかったです。
+店(みせ)は駅(えき)の近(ちか)くでした。
+また行(い)きたいです。`,
+        pt:
+`Variação de tempo verbal:
+- passado: 食べました / でした / おいしかったです
+- desejo: 〜たいです`,
+        vocab: [
+          ["友達(ともだち)", "amigo(a)"],
+          ["食べました(たべました)", "comi"],
+          ["おいしかったです", "foi gostoso"],
+          ["店(みせ)", "loja / restaurante"],
+          ["近く(ちかく)", "perto"],
+          ["行きたい(いきたい)", "querer ir"]
+        ]
       },
       {
-        id:"t05",
-        level:"N5",
-        type:"Texto",
-        common:"Cotidiano",
-        title:"Trabalho/estudo (rotina)",
-        jp:`まいにち ９じから ５じまで はたらきます。よるは うちで にほんごを べんきょうします。ねるまえに ほんを よみます。`,
-        reading:`Mainichi ku-ji kara go-ji made hatarakimasu. Yoru wa uchi de nihongo o benkyō shimasu. Neru mae ni hon o yomimasu.`,
-        pt:`Todos os dias eu trabalho das 9 às 5. À noite eu estudo japonês em casa. Antes de dormir eu leio um livro.`,
-        vocab:[
-          ["まいにち","todo dia"],
-          ["～から ～まで","de ~ até ~"],
-          ["はたらきます","trabalhar"],
-          ["よる","noite"],
-          ["べんきょうします","estudar"],
-          ["ねるまえに","antes de dormir"]
-        ],
-        grammar:[
-          ["～から ～まで","intervalo (tempo)"],
-          ["Nで","local da ação (em casa)"],
-          ["まえに","antes de (fazer algo)"]
-        ],
-        patterns:["～から ～まで","Nで","まえに"]
+        title: "Perguntando horário",
+        subtitle: "今(いま)何(なん)時(じ)ですか",
+        tags: ["tempo", "pergunta", "rotina"],
+        jp:
+`すみません、今(いま)何(なん)時(じ)ですか。
+— 3時(さんじ)です。
+あ、もう3時(さんじ)ですね。
+じゃ、帰(かえ)ります。`,
+        pt:
+`Estruturas de sobrevivência:
+- 今何時ですか
+- もう〜ですね (já é… né)
+- じゃ (então / bom…)`,
+        vocab: [
+          ["今(いま)", "agora"],
+          ["何時(なんじ)", "que horas"],
+          ["もう", "já"],
+          ["帰ります(かえります)", "voltar (pra casa)"]
+        ]
       },
       {
-        id:"t06",
-        level:"N5",
-        type:"Texto",
-        common:"Cotidiano",
-        title:"Clima e planos (futuro próximo)",
-        jp:`あしたは あめが ふるそうです。だから、かさを もって いきます。ひるは ともだちと カフェに いきます。`,
-        reading:`Ashita wa ame ga furusō desu. Dakara, kasa o motte ikimasu. Hiru wa tomodachi to kafe ni ikimasu.`,
-        pt:`Amanhã parece que vai chover. Então, eu vou levar guarda-chuva. De tarde eu vou a um café com um amigo.`,
-        vocab:[
-          ["あした","amanhã"],
-          ["あめ","chuva"],
-          ["ふります","cair (chuva/neve)"],
-          ["だから","então/por isso"],
-          ["かさ","guarda-chuva"],
-          ["もっていきます","levar (carregar e ir)"]
-        ],
-        grammar:[
-          ["Nが ふります","chover"],
-          ["だから","conclusão simples"],
-          ["Nと","com (companhia)"],
-          ["～に いきます","ir a (lugar)"]
-        ],
-        patterns:["だから","Nと","～に いきます"]
+        title: "No restaurante (pedido)",
+        subtitle: "レストランで注文(ちゅうもん)",
+        tags: ["comida", "pedido", "educado"],
+        jp:
+`すみません、メニューを見(み)てもいいですか。
+— はい、どうぞ。
+じゃ、これをお願いします。
+水(みず)も一(ひと)つください。`,
+        pt:
+`Treina:
+- 〜てもいいですか (posso…?)
+- どうぞ (aqui está / fique à vontade)
+- お願いします (pedido padrão)`,
+        vocab: [
+          ["見ます(みます)", "ver/olhar"],
+          ["どうぞ", "por favor / aqui está"],
+          ["お願いします(おねがいします)", "por favor (pedido)"],
+          ["一つ(ひとつ)", "um (coisa)"]
+        ]
       },
       {
-        id:"t07",
-        level:"N5",
-        type:"Texto",
-        common:"Cotidiano",
-        title:"Compras no supermercado",
-        jp:`スーパーで やさいと くだものを かいました。たまごは ありませんでした。あした また かいます。`,
-        reading:`Sūpā de yasai to kudamono o kaimashita. Tamago wa arimasen deshita. Ashita mata kaimasu.`,
-        pt:`No supermercado eu comprei legumes e frutas. Não tinha ovos. Amanhã eu compro de novo.`,
-        vocab:[
-          ["スーパー","supermercado"],
-          ["やさい","legumes/verduras"],
-          ["くだもの","frutas"],
-          ["たまご","ovo"],
-          ["ありませんでした","não tinha (passado)"],
-          ["また","de novo"]
-        ],
-        grammar:[
-          ["NとN","e (lista simples)"],
-          ["Nは ありませんでした","não havia/ não tinha (passado)"],
-          ["また","repetição"]
-        ],
-        patterns:["NとN","ありませんでした","また"]
+        title: "Clima e roupa",
+        subtitle: "天気(てんき)と服(ふく)",
+        tags: ["clima", "opinião", "planejamento"],
+        jp:
+`今日(きょう)は寒(さむ)いですね。
+雨(あめ)も降(ふ)っています。
+傘(かさ)を持(も)って行(い)きます。
+あしたは暖(あたた)かいですか。`,
+        pt:
+`Treina:
+- 〜ですね (comentário/confirmar)
+- 〜ています (estado: “está chovendo”)
+- futuro simples: あしたは…ですか`,
+        vocab: [
+          ["寒い(さむい)", "frio"],
+          ["雨(あめ)", "chuva"],
+          ["降っています(ふっています)", "está chovendo"],
+          ["傘(かさ)", "guarda-chuva"],
+          ["持って行きます(もっていきます)", "levar (consigo)"],
+          ["あした", "amanhã"],
+          ["暖かい(あたたかい)", "quente/agradável"]
+        ]
       },
       {
-        id:"t08",
-        level:"N5",
-        type:"Texto",
-        common:"Cotidiano",
-        title:"No hospital (sintoma simples)",
-        jp:`きのうから おなかが いたいです。あさは あまり たべませんでした。くすりを のんでも いいですか。`,
-        reading:`Kinō kara onaka ga itai desu. Asa wa amari tabemasen deshita. Kusuri o nonde mo ii desu ka.`,
-        pt:`Desde ontem minha barriga dói. De manhã eu não comi muito. Posso tomar remédio?`,
-        vocab:[
-          ["きのう","ontem"],
-          ["～から","desde"],
-          ["おなか","barriga"],
-          ["いたい","doer"],
-          ["あまり","(não) muito"],
-          ["～てもいいですか","posso? (permissão)"]
-        ],
-        grammar:[
-          ["～から","ponto de início (tempo)"],
-          ["Nが いたいです","dói (parte do corpo)"],
-          ["あまり Vません","negação com “não muito”"],
-          ["Vてもいいですか","pedir permissão"]
-        ],
-        patterns:["～から","Nが いたいです","あまり Vません","Vてもいいですか"]
+        title: "Telefonema curto",
+        subtitle: "電話(でんわ)",
+        tags: ["contato", "pedido", "hora"],
+        jp:
+`もしもし、田中(たなか)さんですか。
+— はい、そうです。
+あした10時(じゅうじ)に会(あ)えますか。
+— すみません、あしたは忙(いそが)しいです。`,
+        pt:
+`Treina:
+- ですか / そうです
+- 〜に会えますか (pode se encontrar?)
+- desculpa + motivo (すみません…忙しい)`,
+        vocab: [
+          ["もしもし", "alô (telefone)"],
+          ["会えます(あえます)", "conseguir encontrar"],
+          ["忙しい(いそがしい)", "ocupado"]
+        ]
       },
       {
-        id:"t09",
-        level:"N5",
-        type:"Texto",
-        common:"Cotidiano",
-        title:"Chamando alguém (mensagem curta)",
-        jp:`いま ひまですか。もし よかったら、きょうの よる でんわしませんか。８じは どうですか。`,
-        reading:`Ima hima desu ka. Moshi yokattara, kyō no yoru denwa shimasen ka. Hachi-ji wa dō desu ka.`,
-        pt:`Agora você está livre? Se estiver tudo bem, quer ligar hoje à noite? Que tal 8 horas?`,
-        vocab:[
-          ["いま","agora"],
-          ["ひま","livre/sem compromisso"],
-          ["もしよかったら","se você quiser / se estiver tudo bem"],
-          ["でんわします","telefonar"],
-          ["～ませんか","convite educado"],
-          ["どうですか","o que acha?"]
-        ],
-        grammar:[
-          ["～ませんか","convite/sugestão (polido)"],
-          ["もしよかったら","suaviza o convite"],
-          ["Nは どうですか","propor opção (hora/dia)"]
-        ],
-        patterns:["～ませんか","もしよかったら","Nは どうですか"]
+        title: "Estudos (meta do dia)",
+        subtitle: "勉強(べんきょう)",
+        tags: ["estudo", "habilidade", "tempo"],
+        jp:
+`毎日(まいにち)日本語(にほんご)を勉強(べんきょう)しています。
+でも、漢字(かんじ)はまだ難(むずか)しいです。
+今日は30分(さんじゅっぷん)だけ勉強(べんきょう)します。`,
+        pt:
+`Treina:
+- hábito em progresso: 〜ています
+- ainda: まだ
+- “só / apenas” (bem comum): 〜だけ`,
+        vocab: [
+          ["毎日(まいにち)", "todos os dias"],
+          ["勉強しています(べんきょうしています)", "estou estudando / tenho estudado"],
+          ["漢字(かんじ)", "kanji"],
+          ["難しい(むずかしい)", "difícil"],
+          ["まだ", "ainda"],
+          ["だけ", "apenas/só"],
+          ["分(ふん/ぷん)", "minutos"]
+        ]
       },
       {
-        id:"t10",
-        level:"N5",
-        type:"Texto",
-        common:"Cotidiano",
-        title:"Casa (arrumar + proibição)",
-        jp:`へやを そうじしました。つくえのうえに ほんが あります。ここで たばこを すっては いけません。`,
-        reading:`Heya o sōji shimashita. Tsukue no ue ni hon ga arimasu. Koko de tabako o sutte wa ikemasen.`,
-        pt:`Eu limpei o quarto. Em cima da mesa tem um livro. Aqui não pode fumar.`,
-        vocab:[
-          ["へや","quarto"],
-          ["そうじします","limpar"],
-          ["つくえ","mesa/escrivaninha"],
-          ["うえ","em cima"],
-          ["たばこ","cigarro"],
-          ["～てはいけません","não pode (proibição)"]
-        ],
-        grammar:[
-          ["Nを V","objeto direto com を"],
-          ["Nの うえに Nが あります","localização: em cima de ~ tem ~"],
-          ["Vてはいけません","proibição"]
-        ],
-        patterns:["Nの うえに","Nが あります","Vてはいけません"]
+        title: "Na farmácia",
+        subtitle: "薬局(やっきょく)",
+        tags: ["saúde", "pedido", "sintoma"],
+        jp:
+`すみません、頭(あたま)が痛(いた)いです。
+薬(くすり)はありますか。
+— はい、あります。
+これを飲(の)んでください。`,
+        pt:
+`Treina:
+- “parte do corpo + が + adjetivo” (頭が痛い)
+- ありますか (tem?)
+- 〜てください (pedido/instrução)`,
+        vocab: [
+          ["頭(あたま)", "cabeça"],
+          ["痛い(いたい)", "doer"],
+          ["薬(くすり)", "remédio"],
+          ["飲んでください(のんでください)", "por favor, tome/beba"]
+        ]
+      },
+      {
+        title: "No mercado (quantidade)",
+        subtitle: "スーパーで",
+        tags: ["compras", "quantidade", "família"],
+        jp:
+`りんごを三(みっ)つ買(か)います。
+牛乳(ぎゅうにゅう)も買(か)います。
+家(いえ)に子(こ)どもがいますから。`,
+        pt:
+`Treina:
+- contador simples: 三つ
+- também: も
+- motivo: 〜から`,
+        vocab: [
+          ["りんご", "maçã"],
+          ["三つ(みっつ)", "três (coisas)"],
+          ["牛乳(ぎゅうにゅう)", "leite"],
+          ["子ども(こども)", "criança/filho"],
+          ["〜から", "porque (motivo simples)"]
+        ]
+      },
+      {
+        title: "Convite (sábado)",
+        subtitle: "土曜日(どようび)に",
+        tags: ["convite", "planejamento", "volição"],
+        jp:
+`土曜日(どようび)に映画(えいが)を見(み)ませんか。
+— いいですね。
+じゃ、駅(えき)で会(あ)いましょう。
+— はい、10時(じゅうじ)に行(い)きます。`,
+        pt:
+`Treina:
+- convite: 〜ませんか
+- combinado: いいですね
+- vamos: 〜ましょう`,
+        vocab: [
+          ["土曜日(どようび)", "sábado"],
+          ["映画(えいが)", "filme"],
+          ["見ませんか(みませんか)", "quer ver? (convite)"],
+          ["会いましょう(あいましょう)", "vamos nos encontrar"]
+        ]
+      },
+      {
+        title: "Em casa (proibição/permite)",
+        subtitle: "〜てもいい / 〜てはいけません",
+        tags: ["regras", "casa", "educação"],
+        jp:
+`ここで写真(しゃしん)を撮(と)ってもいいですか。
+— すみません、撮(と)ってはいけません。
+じゃ、外(そと)で撮(と)ります。`,
+        pt:
+`Treina o par mais importante do cotidiano:
+- pode: 〜てもいいですか
+- não pode: 〜てはいけません`,
+        vocab: [
+          ["写真(しゃしん)", "foto"],
+          ["撮ります(とります)", "tirar (foto)"],
+          ["外(そと)", "fora"]
+        ]
+      },
+      {
+        title: "Falando de hobby",
+        subtitle: "趣味(しゅみ)",
+        tags: ["hobby", "gosto", "habilidade"],
+        jp:
+`わたしは料理(りょうり)が好(す)きです。
+よく家(いえ)で作(つく)ります。
+でも、魚(さかな)はあまり作(つく)りません。`,
+        pt:
+`Treina:
+- gosto: 好きです
+- frequência: よく
+- “não muito”: あまり〜ません`,
+        vocab: [
+          ["料理(りょうり)", "culinária / cozinhar"],
+          ["作ります(つくります)", "fazer/cozinhar"],
+          ["魚(さかな)", "peixe"],
+          ["よく", "frequentemente"],
+          ["あまり", "não muito (com negativo)"]
+        ]
       }
     ];
 
+    // ===================================
+    // DADOS — ESTRUTURAS (N5 COMUM + EX)
+    // ===================================
     const STRUCTURES = [
       {
-        id:"s01",
-        level:"N5",
-        type:"Estrutura",
-        common:"Core",
-        title:"A = B (です / じゃありません / でした / じゃありませんでした)",
-        pattern:"N は N です",
-        use:"Frase básica de identificação/afirmação. Varia para negativo e passado.",
-        notes:[
-          "は marca o tópico. (Não é 'igual' a 'é' do português; é tópico/tema.)",
-          "Negativo: じゃありません (polido). Passado: でした. Passado negativo: じゃありませんでした."
-        ],
-        examples:[
-          ["わたしは がくせいです。","Eu sou estudante."],
-          ["わたしは がくせいじゃありません。","Eu não sou estudante."],
-          ["きのうは げつようびでした。","Ontem foi segunda-feira."],
-          ["あれは わたしの かさじゃありませんでした。","Aquilo não era meu guarda-chuva."],
-          ["この みせは しずかです。","Esta loja é tranquila/silenciosa."]
+        title: "AはBです",
+        subtitle: "Frase básica (ser/estar = です)",
+        tags: ["básico", "copula", "identidade"],
+        form: "A は B です。",
+        meaning: "A é B (frase padrão e educada).",
+        notes:
+`Use para identidade, profissão, estado simples.
+Variações: です／でした（passado）／ではありません（negativo）／ではありませんでした（negativo passado）`,
+        examples: [
+          ["わたしは学生(がくせい)です。", "わたしは がくせい です。", "Eu sou estudante."],
+          ["田中(たなか)さんは先生(せんせい)です。", "たなかさんは せんせい です。", "O(a) Tanaka é professor(a)."],
+          ["きのうは休(やす)みでした。", "きのうは やすみ でした。", "Ontem foi folga."],
+          ["今日は休(やす)みではありません。", "きょうは やすみ ではありません。", "Hoje não é folga."],
+          ["先週(せんしゅう)は忙(いそが)しくありませんでした。", "せんしゅうは いそがしくありませんでした。", "Semana passada não foi corrida/ocupada."]
         ]
       },
       {
-        id:"s02",
-        level:"N5",
-        type:"Estrutura",
-        common:"Core",
-        title:"Existência (あります / います)",
-        pattern:"N が あります / N が います",
-        use:"Dizer que algo existe/tem (inanimado) ou alguém/animal está/tem (animado).",
-        notes:[
-          "あります: coisas/objetos/plantas (geralmente).",
-          "います: pessoas/animais.",
-          "Passado: ありました / いました. Negativo: ありません / いません."
-        ],
-        examples:[
-          ["つくえのうえに ほんが あります。","Há um livro em cima da mesa."],
-          ["こうえんに ねこが います。","Tem um gato no parque."],
-          ["きょうは じかんが あります。","Hoje eu tenho tempo."],
-          ["きのうは おかねが ありませんでした。","Ontem eu não tinha dinheiro."],
-          ["ともだちは うちに いません。","Meu amigo não está em casa."]
+        title: "AはBではありません",
+        subtitle: "Negação com ではありません",
+        tags: ["negação", "básico"],
+        form: "A は B ではありません。",
+        meaning: "A não é B.",
+        notes:
+`No casual: じゃないです（mais comum na fala).
+Passado: ではありませんでした / じゃなかったです.`,
+        examples: [
+          ["これはわたしのかばんではありません。", "これは わたしの かばん ではありません。", "Isso não é minha bolsa."],
+          ["きょうは日曜日(にちようび)じゃないです。", "きょうは にちようび じゃないです。", "Hoje não é domingo."],
+          ["昨日(きのう)は雨(あめ)ではありませんでした。", "きのうは あめ ではありませんでした。", "Ontem não choveu (não foi chuva)."],
+          ["その店(みせ)は安(やす)くないです。", "そのみせは やすくないです。", "Aquela loja não é barata."]
         ]
       },
       {
-        id:"s03",
-        level:"N5",
-        type:"Estrutura",
-        common:"Core",
-        title:"Localização (に / で / へ)",
-        pattern:"Nに / Nで / Nへ",
-        use:"Partículas mais frequentes: destino/local de existência (に), local da ação (で), direção (へ).",
-        notes:[
-          "に: destino (いきます), localização (います/あります), tempo (７じに).",
-          "で: lugar onde a ação acontece (たべます, はたらきます).",
-          "へ: direção (parecido com に para 'ir', bem comum em placas)."
-        ],
-        examples:[
-          ["７じに おきます。","Eu acordo às 7."],
-          ["がっこうに いきます。","Vou para a escola."],
-          ["へやに ねこが います。","Tem um gato no quarto."],
-          ["スーパーで かいます。","Compro no supermercado."],
-          ["えきへ いきます。","Vou em direção à estação."]
+        title: "〜ます / 〜ません / 〜ました / 〜ませんでした",
+        subtitle: "Verbo educado (presente/passado/negativo)",
+        tags: ["verbo", "tempo", "formal"],
+        form: "行きます／行きません／行きました／行きませんでした",
+        meaning: "Ir (presente/futuro) / não ir / fui / não fui.",
+        notes:
+`No N5, dominar isso é “edge” total.
+Presente com ます também cobre futuro (amanhã, semana que vem etc.).`,
+        examples: [
+          ["毎日(まいにち)コーヒーを飲(の)みます。", "まいにち こーひーを のみます。", "Eu tomo café todos os dias."],
+          ["今日はお酒(さけ)を飲(の)みません。", "きょうは おさけを のみません。", "Hoje eu não bebo álcool."],
+          ["昨日(きのう)映画(えいが)を見(み)ました。", "きのう えいがを みました。", "Ontem eu vi um filme."],
+          ["先週(せんしゅう)は勉強(べんきょう)しませんでした。", "せんしゅうは べんきょうしませんでした。", "Semana passada eu não estudei."]
         ]
       },
       {
-        id:"s04",
-        level:"N5",
-        type:"Estrutura",
-        common:"Core",
-        title:"Sequência de ações (て-forma)",
-        pattern:"Vて、Vます",
-        use:"Falar ações em sequência (e depois...).",
-        notes:[
-          "Muito comum em rotinas (acordo, como, vou...).",
-          "Não é necessariamente 'e' do português; é fluxo de ações."
-        ],
-        examples:[
-          ["あさごはんを たべて、コーヒーを のみます。","Eu como café da manhã e bebo café."],
-          ["シャワーを あびて、がっこうへ いきます。","Tomo banho e vou para a escola."],
-          ["かえって、すぐ ねます。","Eu volto (para casa) e durmo logo."],
-          ["まどを あけて、へやを そうじします。","Abro a janela e limpo o quarto."],
-          ["でんしゃに のって、かいしゃへ いきました。","Peguei o trem e fui para a empresa. (passado)"]
+        title: "AをVます",
+        subtitle: "Objeto direto com を",
+        tags: ["partícula", "ação"],
+        form: "パンを食べます。",
+        meaning: "Fazer ação em A (objeto).",
+        notes: "O mais comum: comida, bebida, comprar, ver, ler, estudar etc.",
+        examples: [
+          ["ごはんを食(た)べます。", "ごはんを たべます。", "Eu como arroz/refeição."],
+          ["水(みず)を飲(の)みます。", "みずを のみます。", "Eu bebo água."],
+          ["本(ほん)を読(よ)みました。", "ほんを よみました。", "Eu li um livro."],
+          ["日本語(にほんご)を勉強(べんきょう)しています。", "にほんごを べんきょうしています。", "Eu estou estudando japonês."]
         ]
       },
       {
-        id:"s05",
-        level:"N5",
-        type:"Estrutura",
-        common:"Cotidiano",
-        title:"Pedido (ください / Vてください)",
-        pattern:"Nを ください / Vてください",
-        use:"Pedir coisas e pedir ações (bem comum em loja/restaurante/rua).",
-        notes:[
-          "Nをください = “~ por favor” (um item).",
-          "Vてください = “por favor, faça ~” (uma ação)."
-        ],
-        examples:[
-          ["みずを ください。","Água, por favor."],
-          ["これを ください。","Este aqui, por favor."],
-          ["ゆっくり はなしてください。","Por favor, fale devagar."],
-          ["ここに なまえを かいてください。","Por favor, escreva o nome aqui."],
-          ["まっすぐ いってください。","Por favor, vá reto."]
+        title: "Aに行きます / 来ます / 帰ります",
+        subtitle: "Destino com に",
+        tags: ["movimento", "partícula"],
+        form: "A に 行きます／来ます／帰ります",
+        meaning: "Ir/vir/voltar para A.",
+        notes:
+`に marca destino e ponto-alvo. へ também existe (direção), mas no dia a dia, に é “default”.`,
+        examples: [
+          ["学校(がっこう)に行(い)きます。", "がっこうに いきます。", "Vou para a escola."],
+          ["家(いえ)に帰(かえ)ります。", "いえに かえります。", "Vou voltar para casa."],
+          ["友達(ともだち)の家(いえ)に来(き)ました。", "ともだちの いえに きました。", "Eu vim para a casa do meu amigo."],
+          ["来週(らいしゅう)日本(にほん)に行(い)きません。", "らいしゅう にほんに いきません。", "Semana que vem eu não vou ao Japão."]
         ]
       },
       {
-        id:"s06",
-        level:"N5",
-        type:"Estrutura",
-        common:"Cotidiano",
-        title:"Desejo (Vたいです / Vたくないです / Vたかったです)",
-        pattern:"Vたいです",
-        use:"Dizer “quero fazer ~” (bem cotidiano).",
-        notes:[
-          "Negativo: Vたくないです (não quero).",
-          "Passado: Vたかったです (queria).",
-          "Pergunta: Vたいですか (quer?)."
-        ],
-        examples:[
-          ["にほんごを べんきょうしたいです。","Quero estudar japonês."],
-          ["きょうは うちに かえりたいです。","Hoje eu quero voltar pra casa."],
-          ["あしたは えいがを みたくないです。","Amanhã eu não quero ver filme."],
-          ["きのうは すしを たべたかったです。","Ontem eu queria comer sushi."],
-          ["いま なにを したいですか。","O que você quer fazer agora?"]
+        title: "AでVます",
+        subtitle: "Local da ação / meio com で",
+        tags: ["partícula", "lugar", "meio"],
+        form: "図書館(としょかん)で勉強します。",
+        meaning: "Fazer V em A / usando A (meio).",
+        notes:
+`“Em A (local) eu faço…” ou “por/através de (meio)”.
+Ex.: 電車で行きます (vou de trem).`,
+        examples: [
+          ["コンビニで買(か)います。", "こんびにで かいます。", "Eu compro no konbini."],
+          ["家(いえ)で料理(りょうり)します。", "いえで りょうりします。", "Eu cozinho em casa."],
+          ["電車(でんしゃ)で行(い)きます。", "でんしゃで いきます。", "Eu vou de trem."],
+          ["日本語(にほんご)で話(はな)してください。", "にほんごで はなしてください。", "Por favor, fale em japonês."]
         ]
       },
       {
-        id:"s07",
-        level:"N5",
-        type:"Estrutura",
-        common:"Core",
-        title:"Convite/sugestão (～ましょう / ～ませんか)",
-        pattern:"Vましょう / Vませんか",
-        use:"Convidar de forma comum e educada.",
-        notes:[
-          "ましょう = “vamos ~” (proposta direta).",
-          "ませんか = “quer ~?” (convite mais suave)."
-        ],
-        examples:[
-          ["いっしょに いきましょう。","Vamos juntos."],
-          ["ちょっと やすみましょう。","Vamos descansar um pouco."],
-          ["きょう よる でんわしませんか。","Quer ligar hoje à noite?"],
-          ["こんど いっしょに たべませんか。","Da próxima, quer comer junto?"],
-          ["あした こうえんへ いきましょうか。","Vamos ao parque amanhã? (proposta com 'ka')"]
+        title: "AにBがあります / います",
+        subtitle: "Existência (coisas / pessoas-animais)",
+        tags: ["existência", "partícula", "local"],
+        form: "A に B が あります／います。",
+        meaning: "Há/tem B em A.",
+        notes:
+`あります: coisas/objetos.
+います: pessoas/animais.`,
+        examples: [
+          ["机(つくえ)の上(うえ)に本(ほん)があります。", "つくえの うえに ほんが あります。", "Há um livro em cima da mesa."],
+          ["部屋(へや)にねこがいます。", "へやに ねこが います。", "Tem um gato no quarto."],
+          ["駅(えき)の前(まえ)にコンビニがあります。", "えきの まえに こんびにが あります。", "Tem um konbini em frente à estação."],
+          ["ここに人(ひと)がいません。", "ここに ひとが いません。", "Não tem ninguém aqui."]
         ]
       },
       {
-        id:"s08",
-        level:"N5",
-        type:"Estrutura",
-        common:"Cotidiano",
-        title:"Permissão e proibição (～てもいいですか / ～てはいけません)",
-        pattern:"Vてもいいですか / Vてはいけません",
-        use:"Pedir permissão e dizer que algo é proibido.",
-        notes:[
-          "てもいいですか = “posso?” (super comum).",
-          "てはいけません = “não pode” (regras/placas)."
-        ],
-        examples:[
-          ["ここで しゃしんを とっても いいですか。","Posso tirar foto aqui?"],
-          ["いま でんわしても いいですか。","Posso ligar agora?"],
-          ["この みずを のんでも いいですか。","Posso beber esta água?"],
-          ["ここで たばこを すっては いけません。","Aqui não pode fumar."],
-          ["へやで おさけを のんでは いけません。","No quarto não pode beber álcool."]
+        title: "〜は〜が好きです / きらいです",
+        subtitle: "Gosto / não gosto",
+        tags: ["preferência", "comum"],
+        form: "A は B が 好きです。",
+        meaning: "A gosta de B.",
+        notes:
+`Muito usado no N5. Também: 上手(じょうず)／下手(へた)／ほしい etc.`,
+        examples: [
+          ["わたしは寿司(すし)が好(す)きです。", "わたしは すしが すきです。", "Eu gosto de sushi."],
+          ["兄(あに)は野菜(やさい)がきらいです。", "あには やさいが きらいです。", "Meu irmão não gosta de verduras."],
+          ["日本語(にほんご)が大好(だいす)きです。", "にほんごが だいすきです。", "Eu gosto muito de japonês."],
+          ["辛(から)い物(もの)はあまり好(す)きじゃないです。", "からいものは あまり すきじゃないです。", "Eu não gosto muito de comida apimentada."]
         ]
       },
       {
-        id:"s09",
-        level:"N5",
-        type:"Estrutura",
-        common:"Core",
-        title:"Gosto / habilidade (すき・じょうず・へた)",
-        pattern:"Nが すきです / Nが じょうずです / Nが へたです",
-        use:"Opinião e habilidade (muito comum em conversa básica).",
-        notes:[
-          "すき = gostar. きらい = não gostar.",
-          "じょうず/へた = bom/ruim (habilidade)."
-        ],
-        examples:[
-          ["さかなが すきです。","Eu gosto de peixe."],
-          ["やさいは きらいじゃありません。","Eu não odeio legumes (não é que eu não goste)."],
-          ["にほんごが すきです。","Eu gosto de japonês."],
-          ["わたしは うたが じょうずです。","Eu sou bom em cantar."],
-          ["スポーツは へたです。","Eu sou ruim em esportes."]
+        title: "〜ができます",
+        subtitle: "Conseguir / saber fazer",
+        tags: ["habilidade", "comum"],
+        form: "B が できます。",
+        meaning: "Eu sei fazer / consigo fazer B.",
+        notes: "Usa が como foco do que você consegue fazer.",
+        examples: [
+          ["日本語(にほんご)が少(すこ)しできます。", "にほんごが すこし できます。", "Eu consigo (sei) um pouco de japonês."],
+          ["料理(りょうり)ができますか。", "りょうりが できますか。", "Você sabe cozinhar?"],
+          ["運転(うんてん)ができません。", "うんてんが できません。", "Eu não sei dirigir."],
+          ["きょうは早(はや)く起(お)きられません。", "きょうは はやく おきられません。", "Hoje eu não consigo acordar cedo."]
         ]
       },
       {
-        id:"s10",
-        level:"N5",
-        type:"Estrutura",
-        common:"Cotidiano",
-        title:"Intervalo (～から ～まで) + frequência (まいにち/ときどき)",
-        pattern:"～から ～まで / まいにち・ときどき",
-        use:"Rotina: horários, frequência e hábito.",
-        notes:[
-          "から/まで = de/até (tempo/lugar).",
-          "まいにち (todo dia), ときどき (às vezes), よく (frequentemente), あまり～ません (não muito)."
-        ],
-        examples:[
-          ["９じから ５じまで はたらきます。","Trabalho das 9 às 5."],
-          ["げつようびから きんようびまで がっこうです。","Da segunda à sexta tem escola."],
-          ["まいにち コーヒーを のみます。","Eu bebo café todo dia."],
-          ["ときどき としょかんへ いきます。","Às vezes vou à biblioteca."],
-          ["あまり にくを たべません。","Não como muita carne."]
+        title: "〜たいです / 〜たくないです / 〜たかったです",
+        subtitle: "Querer fazer",
+        tags: ["desejo", "comum", "tempo"],
+        form: "Vたいです。",
+        meaning: "Quero fazer V.",
+        notes:
+`Dá para variar tempo/negação. Muito usado no cotidiano.`,
+        examples: [
+          ["水(みず)を飲(の)みたいです。", "みずを のみたいです。", "Eu quero beber água."],
+          ["今日は出(で)かけたくないです。", "きょうは でかけたくないです。", "Hoje eu não quero sair."],
+          ["きのうは早(はや)く寝(ね)たかったです。", "きのうは はやく ねたかったです。", "Ontem eu queria dormir cedo."],
+          ["日本(にほん)に行(い)きたいですが、時間(じかん)がありません。", "にほんに いきたいですが、じかんが ありません。", "Quero ir ao Japão, mas não tenho tempo."]
+        ]
+      },
+      {
+        title: "〜てください",
+        subtitle: "Pedido/instrução educada",
+        tags: ["pedido", "te-forma"],
+        form: "Vてください。",
+        meaning: "Por favor, faça V.",
+        notes: "Um dos padrões mais repetidos no dia a dia.",
+        examples: [
+          ["ゆっくり話(はな)してください。", "ゆっくり はなしてください。", "Por favor, fale devagar."],
+          ["ここに名前(なまえ)を書(か)いてください。", "ここに なまえを かいてください。", "Escreva seu nome aqui, por favor."],
+          ["ちょっと待(ま)ってください。", "ちょっと まってください。", "Espere um pouco, por favor."],
+          ["もう一度(いちど)言(い)ってください。", "もういちど いってください。", "Diga mais uma vez, por favor."]
+        ]
+      },
+      {
+        title: "〜てもいいですか / 〜てもいいです",
+        subtitle: "Permissão (pode?)",
+        tags: ["permissão", "te-forma"],
+        form: "Vてもいいですか。",
+        meaning: "Posso fazer V?",
+        notes: "Resposta comum: はい、いいです。／すみません、ちょっと…",
+        examples: [
+          ["ここに座(すわ)ってもいいですか。", "ここに すわっても いいですか。", "Posso sentar aqui?"],
+          ["写真(しゃしん)を撮(と)ってもいいですか。", "しゃしんを とっても いいですか。", "Posso tirar foto?"],
+          ["窓(まど)を開(あ)けてもいいです。", "まどを あけても いいです。", "Pode abrir a janela."],
+          ["トイレに行(い)ってもいいですか。", "といれに いっても いいですか。", "Posso ir ao banheiro?"]
+        ]
+      },
+      {
+        title: "〜てはいけません",
+        subtitle: "Proibição (não pode)",
+        tags: ["proibição", "te-forma"],
+        form: "Vてはいけません。",
+        meaning: "Não pode fazer V.",
+        notes: "Forte e bem direto. Em placas, é muito comum.",
+        examples: [
+          ["ここでタバコを吸(す)ってはいけません。", "ここで たばこを すってはいけません。", "Não pode fumar aqui."],
+          ["入(はい)ってはいけません。", "はいってはいけません。", "Não pode entrar."],
+          ["夜(よる)おそく電話(でんわ)してはいけません。", "よる おそく でんわしてはいけません。", "Não ligue tarde da noite."],
+          ["この水(みず)を飲(の)んではいけません。", "このみずを のんではいけません。", "Não beba esta água."]
+        ]
+      },
+      {
+        title: "〜ています",
+        subtitle: "Estado / ação em progresso / hábito atual",
+        tags: ["te-forma", "progresso", "estado"],
+        form: "Vています。",
+        meaning: "Estou V-ndo / está V-ndo / tenho feito.",
+        notes:
+`No N5: muito usado para “está chovendo”, “moro”, “estou estudando”.
+Contexto define: agora ou hábito.`,
+        examples: [
+          ["雨(あめ)が降(ふ)っています。", "あめが ふっています。", "Está chovendo."],
+          ["いま勉強(べんきょう)しています。", "いま べんきょうしています。", "Estou estudando agora."],
+          ["東京(とうきょう)に住(す)んでいます。", "とうきょうに すんでいます。", "Eu moro em Tóquio."],
+          ["その店(みせ)は混(こ)んでいます。", "そのみせは こんでいます。", "Aquela loja está lotada."]
+        ]
+      },
+      {
+        title: "〜ませんか / 〜ましょう",
+        subtitle: "Convite / vamos",
+        tags: ["convite", "volição"],
+        form: "Vませんか。／Vましょう。",
+        meaning: "Quer…? / Vamos…",
+        notes:
+`Convite educado e bem comum. “いいですね” é resposta padrão.`,
+        examples: [
+          ["いっしょに昼(ひる)ごはんを食(た)べませんか。", "いっしょに ひるごはんを たべませんか。", "Quer almoçar junto?"],
+          ["じゃ、行(い)きましょう。", "じゃ、いきましょう。", "Então, vamos."],
+          ["週末(しゅうまつ)に映画(えいが)を見(み)ませんか。", "しゅうまつに えいがを みませんか。", "Quer ver um filme no fim de semana?"],
+          ["ここで休(やす)みましょう。", "ここで やすみましょう。", "Vamos descansar aqui."]
+        ]
+      },
+      {
+        title: "〜がほしいです",
+        subtitle: "Querer algo (objeto)",
+        tags: ["desejo", "compras"],
+        form: "B が ほしいです。",
+        meaning: "Eu quero B (um item).",
+        notes:
+`Não confunda com 〜たい (querer fazer). Aqui é querer “coisa”.`,
+        examples: [
+          ["新(あたら)しいスマホがほしいです。", "あたらしい すまほが ほしいです。", "Eu quero um celular novo."],
+          ["水(みず)がほしいです。", "みずが ほしいです。", "Eu quero água."],
+          ["時間(じかん)がほしいです。", "じかんが ほしいです。", "Eu queria ter tempo."],
+          ["あまり物(もの)がほしくないです。", "あまり ものが ほしくないです。", "Eu não quero muito (coisas)."]
+        ]
+      },
+      {
+        title: "〜から / 〜まで",
+        subtitle: "De… até… (tempo/lugar)",
+        tags: ["tempo", "partícula"],
+        form: "9時から5時まで",
+        meaning: "Das 9 até as 5.",
+        notes: "Serve para tempo e lugar. Muito repetido em horários e rotas.",
+        examples: [
+          ["9時(くじ)から5時(ごじ)まで働(はたら)きます。", "くじから ごじまで はたらきます。", "Trabalho das 9 às 5."],
+          ["駅(えき)から家(いえ)まで歩(ある)きます。", "えきから いえまで あるきます。", "Ando da estação até minha casa."],
+          ["月曜日(げつようび)から金曜日(きんようび)まで会社(かいしゃ)です。", "げつようびから きんようびまで かいしゃです。", "De segunda a sexta, é trabalho."],
+          ["ここからあそこまで遠(とお)いです。", "ここから あそこまで とおいです。", "Daqui até ali é longe."]
+        ]
+      },
+      {
+        title: "〜から (motivo)",
+        subtitle: "Porque (simples)",
+        tags: ["motivo", "cotidiano"],
+        form: "理由(りゆう) から",
+        meaning: "Porque…",
+        notes:
+`Forma comum: ～から、～です／ます。
+Mais neutro: ～ので (já aparece cedo, mas から é o core).`,
+        examples: [
+          ["雨(あめ)ですから、行(い)きません。", "あめですから、いきません。", "Porque está chovendo, eu não vou."],
+          ["忙(いそが)しいから、きょうは無理(むり)です。", "いそがしいから、きょうは むりです。", "Porque estou ocupado, hoje não dá."],
+          ["安(やす)いから、これを買(か)います。", "やすいから、これを かいます。", "Porque é barato, vou comprar isto."],
+          ["時間(じかん)がありませんから、帰(かえ)ります。", "じかんが ありませんから、かえります。", "Porque não tenho tempo, vou voltar."]
+        ]
+      },
+      {
+        title: "〜と (e / com)",
+        subtitle: "Ligação simples de substantivos",
+        tags: ["partícula", "lista"],
+        form: "A と B",
+        meaning: "A e B / com B",
+        notes:
+`AとB: “e”. Também “com”: 友達と行きます.`,
+        examples: [
+          ["パンと牛乳(ぎゅうにゅう)を買(か)います。", "ぱんと ぎゅうにゅうを かいます。", "Vou comprar pão e leite."],
+          ["友達(ともだち)と映画(えいが)を見(み)ます。", "ともだちと えいがを みます。", "Vou ver filme com um amigo."],
+          ["父(ちち)と母(はは)は大阪(おおさか)にいます。", "ちちと ははは おおさかに います。", "Meu pai e minha mãe estão em Osaka."],
+          ["先生(せんせい)と話(はな)しました。", "せんせいと はなしました。", "Eu conversei com o professor."]
+        ]
+      },
+      {
+        title: "〜や〜など",
+        subtitle: "A, B e coisas do tipo",
+        tags: ["lista", "comum"],
+        form: "AやBなど",
+        meaning: "A, B, etc.",
+        notes: "Usa quando a lista é exemplo, não lista completa.",
+        examples: [
+          ["りんごやバナナなどを買(か)います。", "りんごや ばなななどを かいます。", "Compro maçã, banana etc."],
+          ["土曜日(どようび)は映画(えいが)やゲームをします。", "どようびは えいがや げーむを します。", "No sábado eu vejo filme e jogo (etc.)."],
+          ["駅(えき)の近(ちか)くにコンビニやカフェがあります。", "えきの ちかくに こんびにや かふぇが あります。", "Perto da estação tem konbini, café etc."]
+        ]
+      },
+      {
+        title: "〜も",
+        subtitle: "Também / nem (com negativo)",
+        tags: ["partícula", "comum"],
+        form: "A も",
+        meaning: "Também A.",
+        notes:
+`Com negativo, vira “nem”: 何もわかりません (não entendo nada).`,
+        examples: [
+          ["わたしも行(い)きます。", "わたしも いきます。", "Eu também vou."],
+          ["水(みず)も買(か)います。", "みずも かいます。", "Vou comprar água também."],
+          ["きょうは何(なに)も食(た)べません。", "きょうは なにも たべません。", "Hoje eu não como nada."],
+          ["だれもいません。", "だれも いません。", "Não tem ninguém."]
+        ]
+      },
+      {
+        title: "〜に (tempo)",
+        subtitle: "Em (hora/dia específico)",
+        tags: ["tempo", "partícula"],
+        form: "3時に／日曜日に",
+        meaning: "Às 3 / no domingo (ponto no tempo).",
+        notes: "Com “every day”: 毎日 geralmente não usa に.",
+        examples: [
+          ["7時(しちじ)に起(お)きます。", "しちじに おきます。", "Eu acordo às 7."],
+          ["日曜日(にちようび)に休(やす)みます。", "にちようびに やすみます。", "Eu descanso no domingo."],
+          ["来週(らいしゅう)の月曜日(げつようび)に会(あ)います。", "らいしゅうの げつようびに あいます。", "Vou me encontrar na próxima segunda."],
+          ["きのうの夜(よる)に勉強(べんきょう)しました。", "きのうの よるに べんきょうしました。", "Ontem à noite eu estudei."]
+        ]
+      },
+      {
+        title: "どこ / だれ / なに / いつ / いくら",
+        subtitle: "Perguntas “de guerra” do dia a dia",
+        tags: ["pergunta", "cotidiano"],
+        form: "どこですか／だれですか／なにですか…",
+        meaning: "Onde / quem / o quê / quando / quanto",
+        notes:
+`Se você domina isso, consegue resolver 80% do básico no Japão.`,
+        examples: [
+          ["トイレはどこですか。", "といれは どこですか。", "Onde é o banheiro?"],
+          ["あの人(ひと)はだれですか。", "あのひとは だれですか。", "Quem é aquela pessoa?"],
+          ["これは何(なん)ですか。", "これは なんですか。", "O que é isto?"],
+          ["いつ行(い)きますか。", "いつ いきますか。", "Quando você vai?"],
+          ["いくらですか。", "いくらですか。", "Quanto custa?"]
+        ]
+      },
+      {
+        title: "〜がある / 〜がいる (posse/“tem”)",
+        subtitle: "Eu tenho… / existe…",
+        tags: ["existência", "posse"],
+        form: "B が あります／います",
+        meaning: "Ter/existir (dependendo do contexto).",
+        notes:
+`“わたしは車があります” não é o padrão; mais natural: わたしは車を持っています (N4).
+No N5, foque no “há/tem em algum lugar” e frases simples.`,
+        examples: [
+          ["時間(じかん)がありますか。", "じかんが ありますか。", "Você tem tempo?"],
+          ["お金(かね)がありません。", "おかねが ありません。", "Não tenho dinheiro."],
+          ["弟(おとうと)がいます。", "おとうとが います。", "Tenho um irmão mais novo."],
+          ["ペットがいません。", "ぺっとが いません。", "Não tenho pet."]
+        ]
+      },
+      {
+        title: "〜の (posse/ligação)",
+        subtitle: "Meu / de / ligação simples",
+        tags: ["partícula", "comum"],
+        form: "A の B",
+        meaning: "B de A / B do(a) A.",
+        notes: "Extremamente comum em placas, endereços, objetos.",
+        examples: [
+          ["わたしの本(ほん)です。", "わたしの ほんです。", "É meu livro."],
+          ["日本(にほん)の会社(かいしゃ)です。", "にほんの かいしゃです。", "É uma empresa do Japão."],
+          ["駅(えき)の近(ちか)くに住(す)んでいます。", "えきの ちかくに すんでいます。", "Moro perto da estação."],
+          ["友達(ともだち)の車(くるま)です。", "ともだちの くるまです。", "É o carro do meu amigo."]
+        ]
+      },
+      {
+        title: "〜より / 〜のほうが",
+        subtitle: "Comparação simples",
+        tags: ["comparação", "opinião"],
+        form: "AよりBのほうが〜です",
+        meaning: "B é mais ~ do que A.",
+        notes: "N5/N4 cedo. Muito usado: 安い、高い、早い、おいしい etc.",
+        examples: [
+          ["電車(でんしゃ)よりバスのほうが安(やす)いです。", "でんしゃより ばすのほうが やすいです。", "O ônibus é mais barato que o trem."],
+          ["この店(みせ)よりあの店(みせ)のほうが近(ちか)いです。", "このみせより あのみせのほうが ちかいです。", "Aquela loja é mais perto que esta."],
+          ["朝(あさ)より夜(よる)のほうが静(しず)かです。", "あさより よるのほうが しずかです。", "À noite é mais silencioso do que de manhã."]
+        ]
+      },
+      {
+        title: "〜がじょうず / 〜がへた",
+        subtitle: "Ser bom / ruim em",
+        tags: ["habilidade", "comum"],
+        form: "B が 上手(じょうず)です／下手(へた)です",
+        meaning: "Ser bom/ruim em B.",
+        notes: "B vem com が. Ex.: 料理が上手です。",
+        examples: [
+          ["兄(あに)は歌(うた)が上手(じょうず)です。", "あには うたが じょうずです。", "Meu irmão canta bem."],
+          ["わたしはダンスが下手(へた)です。", "わたしは だんすが へたです。", "Eu sou ruim de dança."],
+          ["日本語(にほんご)が少(すこ)し上手(じょうず)になりました。", "にほんごが すこし じょうずに なりました。", "Meu japonês melhorou um pouco."]
+        ]
+      },
+      {
+        title: "〜まえに / 〜あとで",
+        subtitle: "Antes de / depois de",
+        tags: ["tempo", "sequência"],
+        form: "Vるまえに／Vたあとで",
+        meaning: "Antes de V / depois de V.",
+        notes: "Muito útil para rotina e instruções.",
+        examples: [
+          ["寝(ね)るまえに歯(は)をみがきます。", "ねるまえに はを みがきます。", "Antes de dormir, eu escovo os dentes."],
+          ["食(た)べたあとで薬(くすり)を飲(の)みます。", "たべたあとで くすりを のみます。", "Depois de comer, eu tomo remédio."],
+          ["会社(かいしゃ)へ行(い)くまえにコーヒーを飲(の)みます。", "かいしゃへ いくまえに こーひーを のみます。", "Antes de ir ao trabalho, eu tomo café."]
+        ]
+      },
+      {
+        title: "〜ましょうか",
+        subtitle: "Oferecer ajuda (quer que eu…?)",
+        tags: ["oferta", "cotidiano"],
+        form: "Vましょうか。",
+        meaning: "Quer que eu faça V? / Eu faço?",
+        notes: "Muito comum para ser educado/útil.",
+        examples: [
+          ["かばんを持(も)ちましょうか。", "かばんを もちましょうか。", "Quer que eu leve sua bolsa?"],
+          ["窓(まど)を開(あ)けましょうか。", "まどを あけましょうか。", "Quer que eu abra a janela?"],
+          ["いっしょに行(い)きましょうか。", "いっしょに いきましょうか。", "Vamos juntos? (quer ir junto?)"]
+        ]
+      },
+      {
+        title: "〜たり〜たりします (bem básico)",
+        subtitle: "Fazer coisas (A e B e tal)",
+        tags: ["lista", "ações"],
+        form: "VたりVたりします",
+        meaning: "Faço coisas como V e V.",
+        notes: "Aparece cedo e é comum no dia a dia (sem precisar ser avançado).",
+        examples: [
+          ["休(やす)みの日(ひ)は映画(えいが)を見(み)たり、ゲームをしたりします。", "やすみのひは えいがを みたり、げーむを したりします。", "No dia de folga, eu vejo filme e jogo (e tal)."],
+          ["家(いえ)で音楽(おんがく)を聞(き)いたり、本(ほん)を読(よ)んだりします。", "いえで おんがくを きいたり、ほんを よんだりします。", "Em casa eu ouço música e leio livros (etc.)."]
         ]
       }
     ];
 
-    const CORE_PATTERNS = [
-      "NはNです／じゃありません／でした／じゃありませんでした",
-      "Nが あります（物）／Nが います（人・動物）",
-      "Nに（destino/tempo/存在）・Nで（ação）・Nへ（direção）",
-      "Vて、V（sequência de ações）",
-      "Nをください／Vてください（pedido）",
-      "Vたいです（quero）／Vたくないです（não quero）／Vたかったです（queria）",
-      "Vましょう（vamos）／Vませんか（quer? convite）",
-      "Vてもいいですか（posso?）／Vてはいけません（não pode）",
-      "Nがすきです（gosto）／じょうず・へた（habilidade）",
-      "～から～まで（de~até）＋ まいにち／ときどき／あまり～ません"
+    // =========================================
+    // VOCAB (bem comum N5, “cotidiano”)
+    // =========================================
+    const VOCAB = [
+      ["こんにちは", "olá (boa tarde)"],
+      ["おはようございます", "bom dia (polido)"],
+      ["こんばんは", "boa noite (cumprimento)"],
+      ["すみません", "com licença / desculpa"],
+      ["ありがとうございます", "muito obrigado(a)"],
+      ["お願いします(おねがいします)", "por favor (pedido)"],
+      ["大丈夫(だいじょうぶ)です", "tudo bem / está ok"],
+      ["だめです", "não pode / não serve"],
+      ["もう一度(いちど)", "mais uma vez"],
+      ["ゆっくり", "devagar"],
+      ["ちょっと", "um pouco / meio… (para recusar)"],
+      ["今(いま)", "agora"],
+      ["今日(きょう)", "hoje"],
+      ["明日(あした)", "amanhã"],
+      ["昨日(きのう)", "ontem"],
+      ["毎日(まいにち)", "todos os dias"],
+      ["駅(えき)", "estação"],
+      ["電車(でんしゃ)", "trem"],
+      ["バス", "ônibus"],
+      ["会社(かいしゃ)", "empresa"],
+      ["学校(がっこう)", "escola"],
+      ["家(いえ)", "casa"],
+      ["店(みせ)", "loja/restaurante"],
+      ["近く(ちかく)", "perto"],
+      ["遠い(とおい)", "longe"],
+      ["早い(はやい)", "cedo/rápido"],
+      ["遅い(おそい)", "tarde/lento"],
+      ["高い(たかい)", "caro/alto"],
+      ["安い(やすい)", "barato"],
+      ["暑い(あつい)", "quente (clima)"],
+      ["寒い(さむい)", "frio (clima)"],
+      ["雨(あめ)", "chuva"],
+      ["傘(かさ)", "guarda-chuva"],
+      ["食べます(たべます)", "comer"],
+      ["飲みます(のみます)", "beber"],
+      ["見ます(みます)", "ver/assistir"],
+      ["行きます(いきます)", "ir"],
+      ["来ます(きます)", "vir"],
+      ["帰ります(かえります)", "voltar"],
+      ["買います(かいます)", "comprar"],
+      ["書きます(かきます)", "escrever"],
+      ["話します(はなします)", "falar"],
+      ["聞きます(ききます)", "ouvir / perguntar"],
+      ["勉強します(べんきょうします)", "estudar"],
+      ["休み(やすみ)", "folga/descanso"],
+      ["忙しい(いそがしい)", "ocupado"]
     ];
 
     // =========================
-    // UI STATE
+    // RENDER
     // =========================
-    const state = {
+    const elList = document.getElementById("mainList");
+    const elTitle = document.getElementById("panelTitle");
+    const elCount = document.getElementById("countInfo");
+    const elQ = document.getElementById("q");
+    const tabBtns = [...document.querySelectorAll(".tabBtn")];
+
+    let state = {
       tab: "texts",
-      q: "",
-      type: "all" // all | Texto | Estrutura | Checklist
+      query: "",
+      deck: []
     };
 
-    const elList = document.getElementById("list");
-    const elQ = document.getElementById("q");
-    const elCount = document.getElementById("countBadge");
-    const elMainTitle = document.getElementById("mainTitle");
-    const elMainHint = document.getElementById("mainHint");
-    const elTypeChips = document.getElementById("typeChips");
-    const elStatLine = document.getElementById("statLine");
-    const elCoreBox = document.getElementById("coreBox");
+    // deck base: mistura frases/estruturas/vocab
+    function buildDeck(){
+      const deck = [];
 
-    function esc(s){
-      return (s ?? "").toString()
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;");
-    }
-
-    function includesQ(obj, q){
-      if(!q) return true;
-      const hay = [
-        obj.title, obj.jp, obj.reading, obj.pt,
-        (obj.pattern||""), (obj.use||""),
-        ...(obj.patterns||[]),
-        ...((obj.vocab||[]).flat()),
-        ...((obj.grammar||[]).flat()),
-        ...((obj.notes||[]).flat()),
-        ...((obj.examples||[]).flat())
-      ].join(" ").toLowerCase();
-      return hay.includes(q.toLowerCase());
-    }
-
-    function buildChips(){
-      const chips = [
-        {key:"all", label:"Tudo"},
-        {key:"Texto", label:"Textos"},
-        {key:"Estrutura", label:"Estruturas"},
-        {key:"Checklist", label:"Checklist"}
-      ];
-      elTypeChips.innerHTML = chips.map(c => {
-        const active = (state.type === c.key) ? "active" : "";
-        return `<span class="chip ${active}" data-type="${c.key}">${esc(c.label)}</span>`;
-      }).join("");
-      elTypeChips.querySelectorAll(".chip").forEach(ch=>{
-        ch.addEventListener("click", ()=>{
-          state.type = ch.dataset.type;
-          render();
+      // 1) vocabulário: cartão = palavra -> significado
+      for (const [jp, pt] of VOCAB){
+        deck.push({
+          q: jp,
+          rd: "Leitura: (treine em voz alta)",
+          pt,
+          meta: "Tipo: vocabulário (N5 comum)"
         });
-      });
-    }
-
-    function renderCore(){
-      elCoreBox.innerHTML = CORE_PATTERNS.map((p,i)=>`${(i+1).toString().padStart(2,"0")}. ${esc(p)}`).join("\n");
-    }
-
-    function setTabs(){
-      document.querySelectorAll(".tab").forEach(t=>{
-        const on = t.dataset.tab === state.tab;
-        t.classList.toggle("active", on);
-        t.setAttribute("aria-selected", on ? "true" : "false");
-      });
-    }
-
-    function getData(){
-      // Tab define o foco principal (o que aparece no card da esquerda)
-      if(state.tab === "texts") return TEXTS;
-      if(state.tab === "structures") return STRUCTURES;
-      if(state.tab === "quick"){
-        // render especial
-        return [];
       }
-      return TEXTS;
+
+      // 2) exemplos das estruturas
+      for (const s of STRUCTURES){
+        for (const ex of s.examples){
+          deck.push({
+            q: ex[0],
+            rd: "Leitura: " + ex[1],
+            pt: ex[2],
+            meta: "Tipo: estrutura — " + s.title
+          });
+        }
+      }
+
+      // 3) 1 frase por texto (primeira linha)
+      for (const t of TEXTS){
+        const firstLine = (t.jp || "").split("\n").find(x => x.trim().length) || "";
+        if(firstLine){
+          deck.push({
+            q: firstLine,
+            rd: "Leitura: (copie e leia 5x)",
+            pt: "Contexto: " + t.title,
+            meta: "Tipo: texto — " + t.subtitle
+          });
+        }
+      }
+
+      state.deck = deck;
     }
 
-    function passesType(item){
-      if(state.type === "all") return true;
-      if(state.type === "Checklist") return false;
-      return item.type === state.type;
+    function escapeHTML(str){
+      return (str ?? "").replace(/[&<>"']/g, (m) => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+      }[m]));
     }
 
-    function itemHTML_text(t){
-      const vocabHTML = (t.vocab||[]).map(v=>`<div><b>${esc(v[0])}</b></div><div>${esc(v[1])}</div>`).join("");
-      const gramHTML = (t.grammar||[]).map(g=>`<div><b>${esc(g[0])}</b></div><div>${esc(g[1])}</div>`).join("");
-      const patt = (t.patterns||[]).map(p=>`<span class="tag common">${esc(p)}</span>`).join("");
-
-      return `
-        <div class="item" data-id="${esc(t.id)}">
-          <div class="itemTop">
-            <div class="itemLeft">
-              <div class="itemTagRow">
-                <span class="tag level">${esc(t.level)}</span>
-                <span class="tag type">${esc(t.type)}</span>
-                <span class="tag common">${esc(t.common)}</span>
-              </div>
-              <p class="jp"><strong>${esc(t.title)}</strong><br>${esc(t.jp)}</p>
-              <p class="reading">${esc(t.pt)}</p>
-            </div>
-            <div class="toggle" data-toggle="${esc(t.id)}">Ver detalhes</div>
+    function makeCard({title, subtitle, tags, bodyHTML}){
+      const tagHTML = (tags || []).map(t => `<span class="tag">${escapeHTML(t)}</span>`).join("");
+      const el = document.createElement("div");
+      el.className = "card";
+      el.innerHTML = `
+        <div class="cardHead" data-toggle>
+          <div class="cardTitle">
+            <div class="t1">${escapeHTML(title)}</div>
+            <div class="t2">${escapeHTML(subtitle || "")}</div>
           </div>
-          <div class="itemBody" id="body-${esc(t.id)}">
-            <div class="sep"></div>
-            <p class="small"><b>Leitura (romaji):</b><br>${esc(t.reading)}</p>
-            <div class="sep"></div>
-            <p class="small"><b>Estruturas usadas:</b> ${patt || "<span class='tag'>—</span>"}</p>
-            <div class="sep"></div>
-            <div class="kv">
-              <b>Vocabulário</b><span></span>
-              ${vocabHTML || "<div><b>—</b></div><div>—</div>"}
-            </div>
-            <div class="sep"></div>
-            <div class="kv">
-              <b>Gramática</b><span></span>
-              ${gramHTML || "<div><b>—</b></div><div>—</div>"}
-            </div>
-          </div>
+          <div class="chev">▾</div>
+        </div>
+        <div class="cardBody">
+          ${tagHTML ? `<div class="tagRow">${tagHTML}</div>` : ""}
+          ${bodyHTML}
         </div>
       `;
+      return el;
     }
 
-    function itemHTML_structure(s){
-      const notes = (s.notes||[]).map(n=>`<li>${esc(n)}</li>`).join("");
-      const ex = (s.examples||[]).map(e=>`
-        <div class="ex">
-          <p class="exjp">${esc(e[0])}</p>
-          <p class="expr">${esc(e[1])}</p>
-        </div>
-      `).join("");
+    function renderTexts(list){
+      elTitle.textContent = "Textos N5";
+      const q = state.query.trim().toLowerCase();
 
-      return `
-        <div class="item" data-id="${esc(s.id)}">
-          <div class="itemTop">
-            <div class="itemLeft">
-              <div class="itemTagRow">
-                <span class="tag level">${esc(s.level)}</span>
-                <span class="tag type">${esc(s.type)}</span>
-                <span class="tag common">${esc(s.common)}</span>
-              </div>
-              <p class="jp"><strong>${esc(s.title)}</strong></p>
-              <p class="reading"><b>Padrão:</b> ${esc(s.pattern)}<br><b>Uso:</b> ${esc(s.use)}</p>
-            </div>
-            <div class="toggle" data-toggle="${esc(s.id)}">Ver detalhes</div>
-          </div>
-          <div class="itemBody" id="body-${esc(s.id)}">
-            <div class="sep"></div>
-            <p class="small"><b>Notas (PT-BR):</b></p>
-            <div class="mono">${notes ? "• " + notes.replaceAll("</li><li>","\n• ").replaceAll("<li>","").replaceAll("</li>","") : "—"}</div>
-            <div class="sep"></div>
-            <p class="small"><b>Frases de exemplo (variando contexto/tempo/negação):</b></p>
-            <div class="examples">${ex}</div>
-          </div>
-        </div>
-      `;
-    }
-
-    function renderQuick(){
-      elMainTitle.textContent = "Checklist rápido (N5)";
-      elMainHint.textContent = "Revisão em 2 minutos: bater o olho e lembrar a função. Busque no campo acima para achar exemplos nos textos/estruturas.";
-      const bullets = CORE_PATTERNS.map(p=>`<div class="ex"><p class="exjp">${esc(p)}</p><p class="expr">Se aparecer no texto, tente substituir palavras e repetir em outro contexto.</p></div>`).join("");
-      elList.innerHTML = `
-        <div class="item">
-          <div class="itemTop">
-            <div class="itemLeft">
-              <div class="itemTagRow">
-                <span class="tag level">N5</span>
-                <span class="tag type">Checklist</span>
-                <span class="tag common">Essencial</span>
-              </div>
-              <p class="jp"><strong>10 estruturas que mais se repetem</strong></p>
-              <p class="reading">Treine: leia → troque o vocabulário → mantenha a mesma estrutura.</p>
-            </div>
-            <div class="toggle" data-toggle="check">Ver detalhes</div>
-          </div>
-          <div class="itemBody open" id="body-check">
-            <div class="sep"></div>
-            <div class="examples">${bullets}</div>
-          </div>
-        </div>
-      `;
-      const total = CORE_PATTERNS.length;
-      elCount.textContent = `${total} itens`;
-      elStatLine.innerHTML = `<span class="dot" aria-hidden="true"></span><strong>${total}</strong> itens`;
-    }
-
-    function wireToggles(){
-      document.querySelectorAll("[data-toggle]").forEach(btn=>{
-        btn.addEventListener("click", ()=>{
-          const id = btn.getAttribute("data-toggle");
-          const body = document.getElementById("body-"+id);
-          if(!body) return;
-          body.classList.toggle("open");
-          btn.textContent = body.classList.contains("open") ? "Fechar" : "Ver detalhes";
-        });
+      const filtered = list.filter(t => {
+        if(!q) return true;
+        const hay = (t.title+" "+t.subtitle+" "+t.jp+" "+t.pt+" "+(t.tags||[]).join(" ")).toLowerCase();
+        return hay.includes(q);
       });
+
+      elCount.textContent = `${filtered.length} itens`;
+      elList.innerHTML = "";
+
+      for (const t of filtered){
+        const vocabHTML = (t.vocab || []).length
+          ? `<div class="kv">
+              ${(t.vocab || []).map(([a,b]) => `
+                <div class="row">
+                  <div class="k">${escapeHTML(a)}</div>
+                  <div class="v">${escapeHTML(b)}</div>
+                </div>
+              `).join("")}
+            </div>`
+          : "";
+
+        const bodyHTML = `
+          <div class="jpBlock">${escapeHTML(t.jp)}</div>
+          <div class="ptBlock">${escapeHTML(t.pt)}</div>
+          ${(t.vocab || []).length ? `<p class="hint">Vocabulário-chave (bem comum):</p>` : ""}
+          ${vocabHTML}
+        `;
+
+        elList.appendChild(makeCard({
+          title: t.title,
+          subtitle: t.subtitle,
+          tags: t.tags,
+          bodyHTML
+        }));
+      }
     }
 
-    function render(){
-      setTabs();
-      buildChips();
+    function renderStructures(list){
+      elTitle.textContent = "Estruturas do N5 (bem usadas)";
+      const q = state.query.trim().toLowerCase();
 
-      if(state.tab === "texts"){
-        elMainTitle.textContent = "Textos N5 (cotidiano)";
-        elMainHint.textContent = "Textos curtos e comuns do dia a dia, com vocabulário e gramática em PT-BR.";
-      } else if(state.tab === "structures"){
-        elMainTitle.textContent = "Estruturas N5 + frases";
-        elMainHint.textContent = "Estruturas que mais se repetem + várias frases de exemplo (mudando contexto, tempo e negação).";
-      } else {
-        // quick
-        renderQuick();
-        wireToggles();
+      const filtered = list.filter(s => {
+        if(!q) return true;
+        const hay = (s.title+" "+s.subtitle+" "+s.form+" "+s.meaning+" "+s.notes+" "+(s.tags||[]).join(" ")+" "+(s.examples||[]).flat().join(" ")).toLowerCase();
+        return hay.includes(q);
+      });
+
+      elCount.textContent = `${filtered.length} itens`;
+      elList.innerHTML = "";
+
+      for (const s of filtered){
+        const exHTML = (s.examples || []).map(ex => `
+          <div class="ex">
+            <p class="jp">${escapeHTML(ex[0])}</p>
+            <p class="rd">${escapeHTML("Leitura: " + ex[1])}</p>
+            <p class="pt">${escapeHTML(ex[2])}</p>
+          </div>
+        `).join("");
+
+        const bodyHTML = `
+          <div class="kv">
+            <div class="row">
+              <div class="k">FORMA</div>
+              <div class="v"><span style="font-family:var(--mono)">${escapeHTML(s.form || "")}</span></div>
+            </div>
+            <div class="row">
+              <div class="k">SIGNIFICADO</div>
+              <div class="v">${escapeHTML(s.meaning || "")}</div>
+            </div>
+            <div class="row">
+              <div class="k">NOTAS (PT-BR)</div>
+              <div class="v">${escapeHTML(s.notes || "")}</div>
+            </div>
+          </div>
+          <div class="examples">
+            <p class="hint">Exemplos (variando contexto e tempo verbal):</p>
+            ${exHTML}
+          </div>
+        `;
+
+        elList.appendChild(makeCard({
+          title: s.title,
+          subtitle: s.subtitle,
+          tags: s.tags,
+          bodyHTML
+        }));
+      }
+    }
+
+    function renderVocab(list){
+      elTitle.textContent = "Vocabulário (comum do N5)";
+      const q = state.query.trim().toLowerCase();
+
+      const filtered = list.filter(([a,b]) => {
+        if(!q) return true;
+        return (a+" "+b).toLowerCase().includes(q);
+      });
+
+      elCount.textContent = `${filtered.length} itens`;
+      elList.innerHTML = "";
+
+      // agrupa por letras (não perfeito em JP, mas ajuda)
+      const bodyHTML = `
+        <div class="ptBlock">Aqui é só o **vocabulário mais comum** (cotidiano). Use a busca para filtrar rápido (ex.: "estação", "買います", "tempo").</div>
+        <div class="kv">
+          ${filtered.map(([a,b]) => `
+            <div class="row">
+              <div class="k">${escapeHTML(a)}</div>
+              <div class="v">${escapeHTML(b)}</div>
+            </div>
+          `).join("")}
+        </div>
+      `;
+
+      elList.appendChild(makeCard({
+        title: "Lista N5 (comum)",
+        subtitle: "palavras/frases que mais aparecem",
+        tags: ["cotidiano", "base", "revisão"],
+        bodyHTML
+      }));
+    }
+
+    // =========================
+    // DECK
+    // =========================
+    let deckIndex = 0;
+    let deckRevealed = false;
+
+    function shuffle(arr){
+      for(let i=arr.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [arr[i],arr[j]] = [arr[j],arr[i]];
+      }
+      return arr;
+    }
+
+    function deckRender(){
+      const qEl = document.getElementById("deckQ");
+      const rdEl = document.getElementById("deckRd");
+      const ptEl = document.getElementById("deckPt");
+      const metaEl = document.getElementById("deckMeta");
+      const aBox = document.getElementById("deckA");
+
+      if(!state.deck.length){
+        qEl.textContent = "Deck vazio";
+        aBox.classList.remove("open");
         return;
       }
 
-      const data = getData();
+      const card = state.deck[deckIndex % state.deck.length];
+      qEl.textContent = card.q;
+      rdEl.textContent = card.rd;
+      ptEl.textContent = card.pt;
+      metaEl.textContent = card.meta;
 
-      const filtered = data
-        .filter(it => passesType(it))
-        .filter(it => includesQ(it, state.q));
+      if(deckRevealed) aBox.classList.add("open");
+      else aBox.classList.remove("open");
+    }
 
-      // Render lista
-      elList.innerHTML = filtered.map(it=>{
-        if(it.type === "Texto") return itemHTML_text(it);
-        if(it.type === "Estrutura") return itemHTML_structure(it);
-        return "";
-      }).join("") || `<div class="item"><div class="itemTop"><div class="itemLeft">
-        <p class="jp"><strong>Nenhum resultado</strong></p>
-        <p class="reading">Tente buscar por: です, ました, ません, ください, います, あります, から, まで, どこ, どうですか…</p>
-      </div></div></div>`;
+    function deckNext(){
+      deckIndex = (deckIndex + 1) % Math.max(1, state.deck.length);
+      deckRevealed = false;
+      deckRender();
+    }
 
-      elCount.textContent = `${filtered.length} itens`;
-      elStatLine.innerHTML = `<span class="dot" aria-hidden="true"></span><strong>${filtered.length}</strong> resultados`;
+    function deckToggle(){
+      deckRevealed = !deckRevealed;
+      deckRender();
+    }
 
-      wireToggles();
+    function deckShuffle(){
+      shuffle(state.deck);
+      deckIndex = 0;
+      deckRevealed = false;
+      deckRender();
     }
 
     // =========================
-    // EVENTOS
+    // CONTROLES / EVENTOS
     // =========================
-    document.querySelectorAll(".tab").forEach(t=>{
-      t.addEventListener("click", ()=>{
-        state.tab = t.dataset.tab;
-        render();
+    function setTab(tab){
+      state.tab = tab;
+      tabBtns.forEach(b => {
+        const on = b.dataset.tab === tab;
+        b.classList.toggle("active", on);
+        b.setAttribute("aria-selected", on ? "true" : "false");
       });
-    });
 
-    elQ.addEventListener("input", ()=>{
-      state.q = elQ.value.trim();
+      render();
+    }
+
+    function render(){
+      const tab = state.tab;
+      if(tab === "texts") renderTexts(TEXTS);
+      else if(tab === "structures") renderStructures(STRUCTURES);
+      else if(tab === "vocab") renderVocab(VOCAB);
+      else if(tab === "deck"){
+        elTitle.textContent = "Deck (revisão rápida)";
+        elCount.textContent = `${state.deck.length} cartões`;
+        elList.innerHTML = "";
+        elList.appendChild(makeCard({
+          title: "Como usar o deck",
+          subtitle: "revisão objetiva (N5)",
+          tags: ["repetição", "memória", "rotina"],
+          bodyHTML: `
+            <div class="ptBlock">
+              Use o deck para “martelar” o básico: partículas, ます/です, て-forma e frases padrão.
+              A mecânica é simples: **pergunta → tenta lembrar → mostra resposta → próximo**.
+            </div>
+            <div class="ptBlock">
+              Dica: se travar em uma estrutura, volte na aba <b>Estruturas N5</b> e leia 5 exemplos em voz alta.
+            </div>
+          `
+        }));
+      }
+
+      // rebind toggles (cards)
+      document.querySelectorAll("[data-toggle]").forEach(h => {
+        h.onclick = () => h.parentElement.classList.toggle("open");
+      });
+
+      // manter deck atualizado na lateral
+      deckRender();
+    }
+
+    tabBtns.forEach(btn => btn.addEventListener("click", () => setTab(btn.dataset.tab)));
+
+    elQ.addEventListener("input", (e) => {
+      state.query = e.target.value || "";
       render();
     });
 
-    document.getElementById("resetBtn").addEventListener("click", ()=>{
-      state.q = "";
-      elQ.value = "";
-      state.type = "all";
-      render();
-    });
+    document.getElementById("deckShow").addEventListener("click", deckToggle);
+    document.getElementById("deckNext").addEventListener("click", deckNext);
+    document.getElementById("deckShuffle").addEventListener("click", deckShuffle);
 
     // init
-    renderCore();
-    buildChips();
+    buildDeck();
+    deckShuffle(); // embaralha na primeira vez
     render();
   </script>
 </body>
